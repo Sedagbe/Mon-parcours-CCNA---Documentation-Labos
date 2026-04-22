@@ -1,396 +1,1169 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CCNA Lab — Ma Documentation Réseau</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#0e1117;--nav:#13191f;--surface:#161d26;--surface2:#1c2535;
-  --border:#243040;--border2:#2e3f52;
-  --cisco:#0099d4;--cisco2:#00c3ff;--cisco-dark:#005f85;--cisco-glow:rgba(0,153,212,.18);
-  --green:#00d48c;--orange:#ff8c42;--red:#e53;
-  --text:#e2eaf4;--text2:#94a8be;--text3:#566880;
-  --font:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
-}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CCNA Lab — Documentation Réseau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep:    #080c14;
+      --bg-card:    #0d1422;
+      --bg-hover:   #111d30;
+      --border:     #1a2a45;
+      --accent:     #00b4ff;
+      --accent2:    #00ffc8;
+      --accent3:    #ff6b35;
+      --text:       #c8d8f0;
+      --text-muted: #4a6080;
+      --tag-bg:     #0a1a2e;
+      --red:        #ff3b5c;
+    }
 
-/* TOPBAR */
-.topbar{position:sticky;top:0;z-index:200;height:58px;background:var(--nav);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:14px;}
-.logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
-.logo-mark{width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,var(--cisco-dark),var(--cisco));display:flex;align-items:center;justify-content:center;font-size:16px;}
-.logo-name{font-family:var(--mono);font-weight:600;font-size:.93rem;color:var(--text);letter-spacing:.04em;}
-.logo-name em{color:var(--cisco2);font-style:normal;}
-.search-wrap{flex:1;max-width:500px;position:relative;margin:0 auto;}
-.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;}
-#searchInput{width:100%;height:36px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:0 14px 0 36px;color:var(--text);font-family:var(--font);font-size:.875rem;outline:none;transition:border-color .15s,box-shadow .15s;}
-#searchInput:focus{border-color:var(--cisco);box-shadow:0 0 0 3px var(--cisco-glow);}
-#searchInput::placeholder{color:var(--text3);}
-.topbar-right{display:flex;gap:8px;flex-shrink:0;}
-.btn-add{display:flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:4px;background:var(--cisco);border:none;color:#fff;font-family:var(--font);font-weight:600;font-size:.82rem;cursor:pointer;transition:background .15s;white-space:nowrap;}
-.btn-add:hover{background:var(--cisco2);}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* CHIPS */
-.chipsbar{position:sticky;top:58px;z-index:190;background:var(--nav);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:8px;height:48px;overflow-x:auto;scrollbar-width:none;}
-.chipsbar::-webkit-scrollbar{display:none;}
-.chip{display:flex;align-items:center;gap:5px;white-space:nowrap;height:30px;padding:0 13px;border-radius:20px;background:var(--surface2);border:1px solid var(--border2);color:var(--text2);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.chip:hover{border-color:var(--cisco);color:var(--cisco);}
-.chip.active{background:var(--cisco);border-color:var(--cisco);color:#fff;font-weight:600;}
+    body {
+      background: var(--bg-deep);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-/* LAYOUT */
-.layout{display:flex;min-height:calc(100vh - 106px);}
+    /* === BACKGROUND GRID === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* SIDEBAR */
-.sidebar{width:218px;flex-shrink:0;padding:14px 0;border-right:1px solid var(--border);position:sticky;top:106px;height:calc(100vh - 106px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
-@media(max-width:900px){.sidebar{display:none;}}
-.sb-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:10px 18px 4px;}
-.sb-item{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:.84rem;color:var(--text2);cursor:pointer;transition:all .12s;border-left:2px solid transparent;user-select:none;}
-.sb-item:hover{background:var(--surface);color:var(--text);}
-.sb-item.active{background:rgba(0,153,212,.07);color:var(--cisco2);border-left-color:var(--cisco);font-weight:500;}
-.sb-ico{font-size:.95rem;width:18px;text-align:center;flex-shrink:0;}
-.sb-count{margin-left:auto;background:var(--surface2);border-radius:9px;padding:1px 7px;font-size:.68rem;color:var(--text3);border:1px solid var(--border);font-family:var(--mono);}
-.sb-item.active .sb-count{background:rgba(0,153,212,.15);color:var(--cisco2);border-color:rgba(0,153,212,.3);}
-.sb-divider{height:1px;background:var(--border);margin:8px 18px;}
+    /* === HEADER === */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,12,20,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
 
-/* MAIN */
-.main{flex:1;min-width:0;padding:22px 20px;}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
 
-/* BANNER */
-.banner{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin-bottom:24px;position:relative;overflow:hidden;}
-.banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 48px,rgba(0,153,212,.025) 48px,rgba(0,153,212,.025) 49px),repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(0,153,212,.025) 48px,rgba(0,153,212,.025) 49px);}
-.banner-inner{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-.banner-left{}
-.banner-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(0,153,212,.12);border:1px solid rgba(0,153,212,.3);color:var(--cisco2);border-radius:3px;padding:3px 10px;font-size:.7rem;font-family:var(--mono);font-weight:600;letter-spacing:.06em;margin-bottom:10px;}
-.banner-pill span{width:7px;height:7px;border-radius:50%;background:var(--cisco2);display:inline-block;animation:pulse 2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.banner h1{font-size:clamp(1.25rem,2.5vw,1.7rem);font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:6px;}
-.banner h1 span{color:var(--cisco2);}
-.banner p{color:var(--text2);font-size:.85rem;line-height:1.6;max-width:420px;}
-.banner-stats{display:flex;gap:0;margin-top:0;border:1px solid var(--border2);border-radius:6px;overflow:hidden;flex-shrink:0;align-self:center;}
-.bstat{padding:12px 20px;text-align:center;border-right:1px solid var(--border2);}
-.bstat:last-child{border-right:none;}
-.bstat-n{font-family:var(--mono);font-size:1.3rem;font-weight:600;color:var(--cisco2);display:block;}
-.bstat-l{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;display:block;margin-top:1px;}
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      color: #000;
+      font-weight: bold;
+    }
 
-/* SECTION HEAD */
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;}
-.sec-title{font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:8px;}
-.sec-title::before{content:'';display:block;width:3px;height:15px;background:var(--cisco);border-radius:2px;flex-shrink:0;}
-.res-info{font-size:.78rem;color:var(--text3);}
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px;}
+    .logo-text span {
+      color: var(--accent);
+    }
 
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s,transform .15s;}
-.card:hover{border-color:rgba(0,153,212,.5);box-shadow:0 6px 28px rgba(0,0,0,.45),0 0 0 1px rgba(0,153,212,.1);transform:translateY(-2px);}
+    /* === SEARCH BAR === */
+    .search-wrap {
+      flex: 1;
+      max-width: 560px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-/* Thumb */
-.thumb{position:relative;aspect-ratio:16/9;background:var(--surface2);overflow:hidden;cursor:pointer;}
-.thumb-bg{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:2.6rem;transition:transform .35s;}
-.card:hover .thumb-bg,.card:hover .thumb img{transform:scale(1.05);}
-.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s;}
-.thumb-ov{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background .2s;}
-.thumb:hover .thumb-ov{background:rgba(0,0,0,.32);}
-.play-btn{width:42px;height:42px;border-radius:50%;background:rgba(0,153,212,.92);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:opacity .2s,transform .2s;}
-.thumb:hover .play-btn{opacity:1;transform:scale(1);}
-.b-type{position:absolute;top:8px;left:8px;border-radius:3px;padding:3px 8px;font-size:.68rem;font-weight:700;font-family:var(--mono);letter-spacing:.04em;}
-.b-type.video{background:rgba(196,0,0,.88);color:#fff;}
-.b-type.packet{background:rgba(0,153,212,.92);color:#fff;}
-.b-type.both{background:rgba(0,212,140,.9);color:#000;}
-.b-dur{position:absolute;bottom:7px;right:8px;background:rgba(0,0,0,.8);border-radius:3px;padding:2px 6px;font-size:.7rem;font-family:var(--mono);}
+    .search-wrap input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 10px 48px 10px 20px;
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-/* Card body */
-.card-body{padding:12px 14px;display:flex;flex-direction:column;gap:5px;flex:1;}
-.card-title{font-size:.88rem;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.card-chapter{font-size:.7rem;color:var(--cisco);font-family:var(--mono);font-weight:600;}
-.card-desc{font-size:.79rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.card-tags{display:flex;gap:5px;flex-wrap:wrap;padding-top:2px;}
-.tag{background:var(--surface2);border:1px solid var(--border);color:var(--text3);border-radius:3px;padding:2px 6px;font-size:.66rem;font-family:var(--mono);}
-.card-btns{display:flex;gap:6px;margin-top:auto;padding-top:9px;}
-.cbtn{flex:1;height:30px;border-radius:4px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-family:var(--font);font-size:.76rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;text-decoration:none;transition:all .15s;}
-.cbtn:hover{border-color:var(--cisco);color:var(--cisco);}
-.cbtn.primary{background:var(--cisco);border-color:var(--cisco);color:#fff;font-weight:600;}
-.cbtn.primary:hover{background:var(--cisco2);border-color:var(--cisco2);}
+    .search-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,180,255,0.12);
+    }
 
-/* EMPTY */
-.empty{grid-column:1/-1;text-align:center;padding:72px 20px;color:var(--text3);}
-.empty .eico{font-size:2.8rem;display:block;margin-bottom:12px;}
-.empty h3{font-size:.95rem;color:var(--text2);margin-bottom:6px;}
+    .search-wrap input::placeholder { color: var(--text-muted); }
 
-/* MODAL */
-.overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;}
-.overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:530px;max-height:92vh;overflow-y:auto;transform:translateY(20px);transition:transform .2s;}
-.overlay.open .modal{transform:translateY(0);}
-.mhead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2;}
-.mhead h2{font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:7px;color:var(--cisco2);}
-.mclose{width:28px;height:28px;border-radius:4px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .12s;}
-.mclose:hover{background:var(--surface2);color:var(--text);}
-.mbody{padding:18px 20px;display:flex;flex-direction:column;gap:13px;}
-.fg{display:flex;flex-direction:column;gap:5px;}
-.fg label{font-size:.72rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}
-.fg input,.fg textarea,.fg select{background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:8px 11px;color:var(--text);font-family:var(--font);font-size:.87rem;outline:none;width:100%;transition:border-color .15s;}
-.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--cisco);}
-.fg textarea{resize:vertical;min-height:68px;}
-.fg select option{background:var(--surface);}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
-.mfoot{padding:13px 20px;border-top:1px solid var(--border);display:flex;gap:9px;}
-.mfoot button{flex:1;height:34px;border-radius:4px;font-family:var(--font);font-weight:600;font-size:.83rem;cursor:pointer;transition:all .15s;}
-.mcancel{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);}
-.mcancel:hover{color:var(--text);}
-.msave{background:var(--cisco);border:1px solid var(--cisco);color:#fff;}
-.msave:hover{background:var(--cisco2);}
+    .search-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .search-btn:hover { color: var(--accent); }
 
-/* RESPONSIVE */
-@media(max-width:620px){
-  .topbar{padding:0 12px;}
-  .logo-name{display:none;}
-  .main{padding:14px 12px;}
-  .banner{padding:18px;}
-  .banner-stats{display:none;}
-  .grid{grid-template-columns:1fr 1fr;gap:10px;}
-  .btn-add .btn-txt{display:none;}
-  .frow{grid-template-columns:1fr;}
-}
-@media(max-width:380px){.grid{grid-template-columns:1fr;}}
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
 
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.card{animation:fadeUp .3s ease both;}
-</style>
+    .stat-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      background: rgba(0,255,200,0.06);
+      border: 1px solid rgba(0,255,200,0.15);
+      border-radius: 4px;
+      padding: 4px 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* === MAIN LAYOUT === */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    /* === SECTION HEADER === */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .filter-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tag {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--tag-bg);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-family: 'Share Tech Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-tag:hover,
+    .filter-tag.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,180,255,0.08);
+    }
+
+    /* === FEATURED VIDEO === */
+    .featured-section {
+      margin-bottom: 48px;
+    }
+
+    .featured-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      transition: border-color 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .featured-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(0,180,255,0.08);
+    }
+
+    .featured-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #0a1530 0%, #0d2040 50%, #091525 100%);
+      overflow: hidden;
+    }
+
+    .featured-thumb .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .play-btn {
+      width: 72px;
+      height: 72px;
+      background: rgba(0,180,255,0.15);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      backdrop-filter: blur(8px);
+    }
+
+    .featured-card:hover .play-btn {
+      background: rgba(0,180,255,0.3);
+      transform: scale(1.1);
+    }
+
+    .play-btn svg { margin-left: 6px; }
+
+    .featured-thumb .network-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+    }
+
+    .duration-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .type-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+    .type-video  { background: rgba(255,59,92,0.85); color: #fff; }
+    .type-lab    { background: rgba(0,180,255,0.85); color: #000; }
+    .type-theory { background: rgba(255,107,53,0.85); color: #fff; }
+
+    .featured-info {
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .featured-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .featured-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .featured-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .featured-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .meta-item svg { color: var(--accent); }
+
+    .tag-list {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 3px 9px;
+      border-radius: 3px;
+    }
+
+    .open-btn {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: linear-gradient(135deg, var(--accent), #0080cc);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      align-self: flex-start;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .open-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* === GRID === */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    /* === CARD === */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px rgba(0,180,255,0.1);
+    }
+
+    .card.hidden { display: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #0a1530, #091828);
+      overflow: hidden;
+    }
+
+    .card-thumb .thumb-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb-icon {
+      font-size: 48px;
+      opacity: 0.15;
+      user-select: none;
+    }
+
+    .card-thumb .card-hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,180,255,0.08);
+      opacity: 0;
+      transition: opacity 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card:hover .card-hover-overlay { opacity: 1; }
+
+    .small-play {
+      width: 44px;
+      height: 44px;
+      background: rgba(0,180,255,0.2);
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Colored accent lines per card */
+    .card-thumb::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .card[data-type="video"]  .card-thumb::after { background: var(--red); }
+    .card[data-type="lab"]    .card-thumb::after { background: var(--accent); }
+    .card[data-type="theory"] .card-thumb::after { background: var(--accent3); }
+
+    .card-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e8f0ff;
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .card-type-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+    .card[data-type="video"]  .card-type-label { color: var(--red);    background: rgba(255,59,92,0.08);  border: 1px solid rgba(255,59,92,0.2); }
+    .card[data-type="lab"]    .card-type-label { color: var(--accent); background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.2); }
+    .card[data-type="theory"] .card-type-label { color: var(--accent3); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); }
+
+    .card-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* === EMPTY STATE === */
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state.visible { display: block; }
+
+    .empty-state svg {
+      margin: 0 auto 16px;
+      display: block;
+      opacity: 0.3;
+    }
+
+    .empty-state p { font-family: 'Share Tech Mono', monospace; font-size: 13px; }
+
+    /* === MODAL === */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      padding: 32px;
+      position: relative;
+      animation: modalIn 0.3s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 22px;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+
+    .modal-type {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .modal h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, var(--accent), #0080cc);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* === FOOTER === */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    footer span { color: var(--accent); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      header { padding: 0 14px; gap: 12px; }
+      .header-stats { display: none; }
+      .featured-card { grid-template-columns: 1fr; }
+      .featured-info { padding: 20px 18px; }
+      .featured-title { font-size: 17px; }
+      .cards-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+      main { padding: 20px 14px 50px; }
+    }
+
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .filter-tags { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<header class="topbar">
-  <a class="logo" href="#">
-    <div class="logo-mark">🌐</div>
-    <span class="logo-name">CCNA<em>Lab</em></span>
+<!-- ═══ HEADER ═══ -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">NET</div>
+    <span class="logo-text">CCNA<span>Lab</span></span>
   </a>
+
   <div class="search-wrap">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input id="searchInput" type="text" placeholder="Rechercher VLAN, OSPF, NAT, STP, ACL…"/>
-  </div>
-  <div class="topbar-right">
-    <button class="btn-add" onclick="openModal()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-      <span class="btn-txt">Ajouter un lab</span>
+    <input type="text" id="searchInput" placeholder="Rechercher — OSI, VLAN, RIP, OSPF, STP…" />
+    <button class="search-btn" aria-label="Rechercher">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
     </button>
+  </div>
+
+  <div class="header-stats">
+    <span class="stat-badge" id="countBadge">0 ressources</span>
   </div>
 </header>
 
-<!-- CHIPS -->
-<nav class="chipsbar" id="chipsbar">
-  <button class="chip active" data-filter="all">Tout voir</button>
-  <button class="chip" data-filter="ch1">📡 Fondamentaux</button>
-  <button class="chip" data-filter="ch2">🔀 Switching &amp; VLAN</button>
-  <button class="chip" data-filter="ch3">🗺️ Routage IP</button>
-  <button class="chip" data-filter="ch4">⚡ Protocoles dynamiques</button>
-  <button class="chip" data-filter="ch5">🛡️ Sécurité &amp; ACL</button>
-  <button class="chip" data-filter="ch6">🌍 WAN &amp; NAT</button>
-  <button class="chip" data-filter="ch7">☁️ Services réseau</button>
-  <button class="chip" data-filter="video">📹 Vidéos</button>
-  <button class="chip" data-filter="packet">🗂️ Packet Tracer</button>
-</nav>
+<!-- ═══ MAIN ═══ -->
+<main>
 
-<!-- LAYOUT -->
-<div class="layout">
+  <!-- FEATURED -->
+  <section class="featured-section">
+    <div class="section-header" style="margin-bottom:16px">
+      <span class="section-title">En vedette</span>
+    </div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sb-label">Chapitres CCNA</div>
-    <div class="sb-item active" data-side="all" onclick="setSide('all',this)"><span class="sb-ico">🏠</span>Tous les labs<span class="sb-count" id="sc-all">0</span></div>
-    <div class="sb-item" data-side="ch1" onclick="setSide('ch1',this)"><span class="sb-ico">📡</span>Fondamentaux<span class="sb-count" id="sc-ch1">0</span></div>
-    <div class="sb-item" data-side="ch2" onclick="setSide('ch2',this)"><span class="sb-ico">🔀</span>Switching &amp; VLAN<span class="sb-count" id="sc-ch2">0</span></div>
-    <div class="sb-item" data-side="ch3" onclick="setSide('ch3',this)"><span class="sb-ico">🗺️</span>Routage IP<span class="sb-count" id="sc-ch3">0</span></div>
-    <div class="sb-item" data-side="ch4" onclick="setSide('ch4',this)"><span class="sb-ico">⚡</span>Protocoles dynamiques<span class="sb-count" id="sc-ch4">0</span></div>
-    <div class="sb-item" data-side="ch5" onclick="setSide('ch5',this)"><span class="sb-ico">🛡️</span>Sécurité &amp; ACL<span class="sb-count" id="sc-ch5">0</span></div>
-    <div class="sb-item" data-side="ch6" onclick="setSide('ch6',this)"><span class="sb-ico">🌍</span>WAN &amp; NAT<span class="sb-count" id="sc-ch6">0</span></div>
-    <div class="sb-item" data-side="ch7" onclick="setSide('ch7',this)"><span class="sb-ico">☁️</span>Services réseau<span class="sb-count" id="sc-ch7">0</span></div>
-    <div class="sb-divider"></div>
-    <div class="sb-label">Type</div>
-    <div class="sb-item" data-side="video" onclick="setSide('video',this)"><span class="sb-ico">📹</span>Vidéos seulement</div>
-    <div class="sb-item" data-side="packet" onclick="setSide('packet',this)"><span class="sb-ico">🗂️</span>Packet Tracer</div>
-    <div class="sb-item" data-side="both" onclick="setSide('both',this)"><span class="sb-ico">⚡</span>Vidéo + PKT</div>
-  </aside>
+    <div class="featured-card" onclick="openModal('featured')" style="cursor:pointer">
+      <div class="featured-thumb">
+        <!-- Animated SVG network diagram -->
+        <svg class="network-svg" viewBox="0 0 600 340" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#00b4ff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#00b4ff" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="300" cy="170" r="120" fill="url(#glow)"/>
+          <!-- Nodes -->
+          <g stroke="#00b4ff" stroke-width="1.5" fill="none" opacity="0.7">
+            <line x1="300" y1="170" x2="160" y2="90"/><line x1="300" y1="170" x2="440" y2="90"/>
+            <line x1="300" y1="170" x2="160" y2="250"/><line x1="300" y1="170" x2="440" y2="250"/>
+            <line x1="160" y1="90" x2="60" y2="60"/><line x1="440" y1="90" x2="540" y2="60"/>
+            <line x1="160" y1="250" x2="60" y2="280"/><line x1="440" y1="250" x2="540" y2="280"/>
+            <line x1="160" y1="90" x2="440" y2="90"/><line x1="160" y1="250" x2="440" y2="250"/>
+          </g>
+          <g fill="#00b4ff">
+            <circle cx="300" cy="170" r="8" opacity="0.9"/>
+            <circle cx="160" cy="90"  r="5" opacity="0.7"/>
+            <circle cx="440" cy="90"  r="5" opacity="0.7"/>
+            <circle cx="160" cy="250" r="5" opacity="0.7"/>
+            <circle cx="440" cy="250" r="5" opacity="0.7"/>
+          </g>
+          <g fill="#00ffc8" opacity="0.5">
+            <circle cx="60" cy="60" r="4"/>
+            <circle cx="540" cy="60" r="4"/>
+            <circle cx="60" cy="280" r="4"/>
+            <circle cx="540" cy="280" r="4"/>
+          </g>
+          <!-- Labels -->
+          <g font-family="Share Tech Mono, monospace" font-size="10" fill="#00b4ff" opacity="0.6">
+            <text x="290" y="160">R1</text>
+            <text x="150" y="82">SW1</text>
+            <text x="430" y="82">SW2</text>
+            <text x="150" y="265">PC1</text>
+            <text x="430" y="265">PC2</text>
+          </g>
+        </svg>
 
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- Banner -->
-    <div class="banner">
-      <div class="banner-inner">
-        <div class="banner-left">
-          <div class="banner-pill"><span></span>CISCO CCNA 200-301 — EN COURS</div>
-          <h1>Ma Documentation <span>Réseau</span></h1>
-          <p>Labs Packet Tracer, vidéos explicatives et notes de révision. Clique sur une card pour accéder au contenu.</p>
+        <div class="thumb-overlay">
+          <div class="play-btn">
+            <svg width="24" height="24" fill="#00b4ff" viewBox="0 0 24 24">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
+          </div>
         </div>
-        <div class="banner-stats">
-          <div class="bstat"><span class="bstat-n" id="st-total">0</span><span class="bstat-l">Labs</span></div>
-          <div class="bstat"><span class="bstat-n" id="st-vid">0</span><span class="bstat-l">Vidéos</span></div>
-          <div class="bstat"><span class="bstat-n" id="st-pkt">0</span><span class="bstat-l">Fichiers .pkt</span></div>
+        <span class="type-badge type-video">▶ VIDÉO</span>
+        <span class="duration-badge">14:32</span>
+      </div>
+
+      <div class="featured-info">
+        <span class="featured-eyebrow">Fondamentaux réseau · Avril 2026</span>
+        <h2 class="featured-title">Modèle OSI — Les 7 couches expliquées</h2>
+        <p class="featured-desc">
+          Comprendre le modèle de référence OSI est la base indispensable pour toute certification CCNA.
+          Cette vidéo détaille chaque couche, son rôle et les protocoles associés avec des exemples concrets sur Packet Tracer.
+        </p>
+        <div class="tag-list">
+          <span class="tag">OSI</span>
+          <span class="tag">Encapsulation</span>
+          <span class="tag">TCP/IP</span>
+          <span class="tag">Protocoles</span>
+        </div>
+        <div class="featured-meta">
+          <span class="meta-item">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            14 min 32 sec
+          </span>
+          <span class="meta-item">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Niveau débutant
+          </span>
+        </div>
+        <a class="open-btn" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          Regarder sur YouTube
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER TAGS -->
+  <div class="section-header">
+    <span class="section-title">Toutes les ressources</span>
+    <div class="filter-tags">
+      <span class="filter-tag active" data-filter="all">Tout</span>
+      <span class="filter-tag" data-filter="video">Vidéos</span>
+      <span class="filter-tag" data-filter="lab">Labs Packet Tracer</span>
+      <span class="filter-tag" data-filter="theory">Théorie</span>
+    </div>
+  </div>
+
+  <!-- CARDS GRID -->
+  <div class="cards-grid" id="cardsGrid">
+
+    <!-- CARD 1 — LAB -->
+    <div class="card" data-type="lab"
+         data-tags="vlan switch 802.1q trunk access inter-vlan"
+         data-title="Configuration VLAN et Trunking"
+         data-desc="Mise en place de VLANs sur des switches Cisco, configuration des ports trunk et access, et routage inter-VLAN."
+         data-file="labs/vlan-trunking.pkt"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🔀</span></div>
+        <span class="type-badge type-lab">PKT LAB</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Lab #01</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Configuration VLAN et Trunking 802.1Q</div>
+        <div class="card-desc">Mise en place de VLANs sur switches Cisco, ports trunk/access et routage inter-VLAN.</div>
+        <div class="card-footer">
+          <span class="card-type-label">PACKET TRACER</span>
+          <span class="card-date">2024-01</span>
         </div>
       </div>
     </div>
 
-    <div class="sec-head">
-      <h2 class="sec-title" id="secTitle">Tous les labs</h2>
-      <span class="res-info" id="resInfo"></span>
-    </div>
-
-    <div class="grid" id="grid"></div>
-  </main>
-</div>
-
-<!-- MODAL -->
-<div class="overlay" id="overlay" onclick="closeBg(event)">
-  <div class="modal">
-    <div class="mhead">
-      <h2>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        Ajouter un lab
-      </h2>
-      <button class="mclose" onclick="closeModal()">✕</button>
-    </div>
-    <div class="mbody">
-      <div class="fg"><label>Titre du lab *</label><input id="f-title" placeholder="Ex : Configuration OSPF multi-area"></div>
-      <div class="frow">
-        <div class="fg"><label>Chapitre CCNA</label>
-          <select id="f-chap">
-            <option value="ch1">Fondamentaux réseau</option>
-            <option value="ch2">Switching &amp; VLAN</option>
-            <option value="ch3">Routage IP</option>
-            <option value="ch4">Protocoles dynamiques</option>
-            <option value="ch5">Sécurité &amp; ACL</option>
-            <option value="ch6">WAN &amp; NAT</option>
-            <option value="ch7">Services réseau</option>
-          </select>
+    <!-- CARD 2 — VIDEO -->
+    <div class="card" data-type="video"
+         data-tags="ospf routage dynamique area backbone lsa"
+         data-title="OSPF — Routage Dynamique"
+         data-desc="Comprendre le protocole OSPF, les aires, les LSA et la convergence du réseau."
+         data-file="videos/ospf-intro.mp4"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🗺️</span></div>
+        <span class="type-badge type-video">▶ VIDÉO</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#ff3b5c" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
         </div>
-        <div class="fg"><label>Type</label>
-          <select id="f-type">
-            <option value="both">Vidéo + Packet Tracer</option>
-            <option value="video">Vidéo seulement</option>
-            <option value="packet">Packet Tracer seulement</option>
-          </select>
+        <span class="duration-badge">22:15</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">OSPF — Routage Dynamique & Convergence</div>
+        <div class="card-desc">Comprendre OSPF, les aires, les LSA et la convergence du réseau en profondeur.</div>
+        <div class="card-footer">
+          <span class="card-type-label">VIDÉO</span>
+          <span class="card-date">2024-02</span>
         </div>
       </div>
-      <div class="fg"><label>Description</label><textarea id="f-desc" placeholder="Commandes clés, objectifs du lab…"></textarea></div>
-      <div class="frow">
-        <div class="fg"><label>Durée vidéo</label><input id="f-dur" placeholder="14:22"></div>
-        <div class="fg"><label>Tags (virgule)</label><input id="f-tags" placeholder="VLAN, Trunk, 802.1Q"></div>
+    </div>
+
+    <!-- CARD 3 — LAB -->
+    <div class="card" data-type="lab"
+         data-tags="acl access control list standard extended filtrage sécurité"
+         data-title="ACL Standard et Étendue"
+         data-desc="Création et application d'ACLs pour filtrer le trafic réseau sur routeurs Cisco."
+         data-file="labs/acl-standard-extended.pkt"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🛡️</span></div>
+        <span class="type-badge type-lab">PKT LAB</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Lab #02</span>
       </div>
-      <div class="fg"><label>URL Vidéo (YouTube / local)</label><input id="f-video" placeholder="https://youtube.com/watch?v=…"></div>
-      <div class="fg"><label>Fichier Packet Tracer (.pkt)</label><input id="f-pkt" placeholder="labs/mon-lab.pkt  ou lien GitHub raw"></div>
-      <div class="fg"><label>Image de couverture (URL ou chemin)</label><input id="f-thumb" placeholder="images/lab.png"></div>
+      <div class="card-body">
+        <div class="card-title">ACL Standard et Étendue — Filtrage</div>
+        <div class="card-desc">Création et application d'ACLs pour filtrer le trafic réseau sur routeurs Cisco.</div>
+        <div class="card-footer">
+          <span class="card-type-label">PACKET TRACER</span>
+          <span class="card-date">2024-02</span>
+        </div>
+      </div>
     </div>
-    <div class="mfoot">
-      <button class="mcancel" onclick="closeModal()">Annuler</button>
-      <button class="msave" onclick="saveCard()">Enregistrer le lab</button>
+
+    <!-- CARD 4 — THEORY -->
+    <div class="card" data-type="theory"
+         data-tags="ip adressage subnetting cidr masque sous-réseau ipv4"
+         data-title="Adressage IP et Subnetting"
+         data-desc="Maîtriser le découpage en sous-réseaux, CIDR et la notation slash."
+         data-file="docs/subnetting.pdf"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🔢</span></div>
+        <span class="type-badge type-theory">THÉORIE</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#ff6b35" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Guide</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Adressage IP & Subnetting CIDR</div>
+        <div class="card-desc">Maîtriser le découpage en sous-réseaux, CIDR et la notation slash avec exercices.</div>
+        <div class="card-footer">
+          <span class="card-type-label">THÉORIE</span>
+          <span class="card-date">2024-01</span>
+        </div>
+      </div>
     </div>
+
+    <!-- CARD 5 — LAB -->
+    <div class="card" data-type="lab"
+         data-tags="stp spanning tree bpdu root bridge loop prevention"
+         data-title="Spanning Tree Protocol STP"
+         data-desc="Prévention des boucles réseau avec STP, election du root bridge et états des ports."
+         data-file="labs/stp.pkt"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🌳</span></div>
+        <span class="type-badge type-lab">PKT LAB</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Lab #03</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">STP — Spanning Tree & Prévention des Boucles</div>
+        <div class="card-desc">Election du root bridge, états des ports STP et gestion des boucles réseau.</div>
+        <div class="card-footer">
+          <span class="card-type-label">PACKET TRACER</span>
+          <span class="card-date">2024-03</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6 — VIDEO -->
+    <div class="card" data-type="video"
+         data-tags="dhcp serveur adresse dynamique pool lease relay agent"
+         data-title="DHCP — Configuration Serveur"
+         data-desc="Configuration d'un serveur DHCP sur IOS Cisco, pools d'adresses et DHCP relay agent."
+         data-file="videos/dhcp-config.mp4"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">📡</span></div>
+        <span class="type-badge type-video">▶ VIDÉO</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#ff3b5c" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">18:40</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">DHCP — Configuration Serveur sur IOS Cisco</div>
+        <div class="card-desc">Pools d'adresses, exclusions, DHCP relay agent et dépannage sur Cisco IOS.</div>
+        <div class="card-footer">
+          <span class="card-type-label">VIDÉO</span>
+          <span class="card-date">2024-03</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7 — THEORY -->
+    <div class="card" data-type="theory"
+         data-tags="ipv6 adressage stateless slaac nd protocol migration"
+         data-title="Introduction à IPv6"
+         data-desc="Structure des adresses IPv6, SLAAC, NDP et migration depuis IPv4."
+         data-file="docs/ipv6-intro.pdf"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🌐</span></div>
+        <span class="type-badge type-theory">THÉORIE</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#ff6b35" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Guide</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">Introduction à IPv6 — Structure & SLAAC</div>
+        <div class="card-desc">Structure des adresses IPv6, Neighbor Discovery Protocol et migration depuis IPv4.</div>
+        <div class="card-footer">
+          <span class="card-type-label">THÉORIE</span>
+          <span class="card-date">2024-04</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8 — LAB -->
+    <div class="card" data-type="lab"
+         data-tags="nat pat overload translation adresse privée publique"
+         data-title="NAT/PAT — Translation d'adresses"
+         data-desc="Configuration NAT statique, dynamique et PAT (overload) sur routeur Cisco."
+         data-file="labs/nat-pat.pkt"
+         onclick="openModal(this)">
+      <div class="card-thumb">
+        <div class="thumb-bg"><span class="thumb-icon">🔄</span></div>
+        <span class="type-badge type-lab">PKT LAB</span>
+        <div class="card-hover-overlay">
+          <div class="small-play">
+            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </div>
+        </div>
+        <span class="duration-badge">Lab #04</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">NAT / PAT — Translation d'Adresses IP</div>
+        <div class="card-desc">NAT statique, dynamique et PAT (overload) sur routeur Cisco avec vérification.</div>
+        <div class="card-footer">
+          <span class="card-type-label">PACKET TRACER</span>
+          <span class="card-date">2024-04</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cards-grid -->
+
+  <div class="empty-state" id="emptyState">
+    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <p>Aucun résultat pour votre recherche.</p>
+  </div>
+
+</main>
+
+<footer>
+  <span>CCNA</span>Lab — Documentation Réseau Personnel &nbsp;·&nbsp; Hébergé sur <span>GitHub Pages</span>
+</footer>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-type" id="modalType"></div>
+    <h2 id="modalTitle"></h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <div class="modal-actions" id="modalActions"></div>
   </div>
 </div>
 
 <script>
-const CHAPTERS={ch1:'Fondamentaux réseau',ch2:'Switching & VLAN',ch3:'Routage IP',ch4:'Protocoles dynamiques',ch5:'Sécurité & ACL',ch6:'WAN & NAT',ch7:'Services réseau'};
-const CHIP_TITLES={all:'Tous les labs',ch1:'Fondamentaux réseau',ch2:'Switching & VLAN',ch3:'Routage IP',ch4:'Protocoles dynamiques',ch5:'Sécurité & ACL',ch6:'WAN & NAT',ch7:'Services réseau',video:'Vidéos',packet:'Packet Tracer',both:'Vidéo + PKT'};
+  // ═══ DATA ═══
+  const cards = document.querySelectorAll('.card');
+  const searchInput = document.getElementById('searchInput');
+  const emptyState = document.getElementById('emptyState');
+  const countBadge = document.getElementById('countBadge');
+  const filterTags = document.querySelectorAll('.filter-tag');
 
-let labs=[
-  {id:1,title:'Modèle OSI — Les 7 couches expliquées',desc:'Explication complète du modèle OSI, de la couche physique à la couche application avec démonstration dans Packet Tracer.',ch:'ch1',type:'both',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'labs/modele-osi.pkt',thumb:'',emoji:'📡',bg:'linear-gradient(135deg,#0a1520,#0d2840)',dur:'18:42',tags:['OSI','Couches','Modèles'],date:'Jan 2025'},
-  {id:2,title:'VLAN & Trunk — Configuration Cisco complète',desc:'Création de VLANs, liaisons trunk 802.1Q, inter-VLAN routing, vérification avec show vlan brief.',ch:'ch2',type:'both',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'labs/vlan-trunk.pkt',thumb:'',emoji:'🔀',bg:'linear-gradient(135deg,#081a10,#0d3020)',dur:'22:10',tags:['VLAN','Trunk','802.1Q'],date:'Fév 2025'},
-  {id:3,title:'STP & RSTP — Prévention des boucles réseau',desc:'Spanning Tree Protocol, élection du root bridge, états des ports, convergence et PortFast.',ch:'ch2',type:'both',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'labs/stp.pkt',thumb:'',emoji:'🌲',bg:'linear-gradient(135deg,#081510,#0a2a18)',dur:'19:55',tags:['STP','RSTP','Switching'],date:'Fév 2025'},
-  {id:4,title:'Routage statique & route par défaut',desc:'Configuration des routes statiques, route de dernier recours, table de routage et vérification.',ch:'ch3',type:'packet',videoUrl:'',pktUrl:'labs/static-routing.pkt',thumb:'',emoji:'🗺️',bg:'linear-gradient(135deg,#0a1020,#101830)',dur:'',tags:['Routage','Statique','IPv4'],date:'Mar 2025'},
-  {id:5,title:'OSPF Single Area — Lab complet',desc:'Configuration OSPF, élection DR/BDR, LSA, coût des interfaces, passive-interface.',ch:'ch4',type:'both',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'labs/ospf.pkt',thumb:'',emoji:'⚡',bg:'linear-gradient(135deg,#150a20,#280a40)',dur:'25:30',tags:['OSPF','Dynamique','Area 0'],date:'Mar 2025'},
-  {id:6,title:'NAT & PAT — Translation d\'adresses IP',desc:'NAT statique, dynamique et PAT pour accès internet depuis des réseaux privés RFC 1918.',ch:'ch6',type:'video',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'',thumb:'',emoji:'🔄',bg:'linear-gradient(135deg,#1a0f00,#2e1800)',dur:'15:08',tags:['NAT','PAT','WAN'],date:'Avr 2025'},
-  {id:7,title:'ACL Standard & Étendue — Filtrage trafic',desc:'Filtrage du trafic avec Access Control Lists, wildcards, placement inbound/outbound.',ch:'ch5',type:'packet',videoUrl:'',pktUrl:'labs/acl.pkt',thumb:'',emoji:'🛡️',bg:'linear-gradient(135deg,#1a0808,#300808)',dur:'',tags:['ACL','Sécurité','Filtrage'],date:'Avr 2025'},
-  {id:8,title:'DHCP Server sur routeur Cisco',desc:'Configuration serveur DHCP, exclusions, pools, helper-address pour relay inter-VLAN.',ch:'ch7',type:'both',videoUrl:'https://www.youtube.com/watch?v=dQw4w9WgXcQ',pktUrl:'labs/dhcp.pkt',thumb:'',emoji:'☁️',bg:'linear-gradient(135deg,#081520,#0a2535)',dur:'12:40',tags:['DHCP','Services','IPv4'],date:'Mai 2025'},
-];
+  let currentFilter = 'all';
 
-let activeFilter='all', searchQ='';
-
-function render(){
-  const q=searchQ.toLowerCase().trim();
-  const filtered=labs.filter(l=>{
-    let fm=activeFilter==='all';
-    if(!fm) fm=l.ch===activeFilter||l.type===activeFilter||(activeFilter==='video'&&(l.type==='video'||l.type==='both'))||(activeFilter==='packet'&&(l.type==='packet'||l.type==='both'));
-    const sm=!q||l.title.toLowerCase().includes(q)||l.desc.toLowerCase().includes(q)||l.tags.some(t=>t.toLowerCase().includes(q))||(CHAPTERS[l.ch]||'').toLowerCase().includes(q);
-    return fm&&sm;
-  });
-
-  document.getElementById('st-total').textContent=labs.length;
-  document.getElementById('st-vid').textContent=labs.filter(l=>l.type==='video'||l.type==='both').length;
-  document.getElementById('st-pkt').textContent=labs.filter(l=>l.type==='packet'||l.type==='both').length;
-  Object.keys(CHAPTERS).forEach(k=>{const e=document.getElementById('sc-'+k);if(e)e.textContent=labs.filter(l=>l.ch===k).length;});
-  const sa=document.getElementById('sc-all');if(sa)sa.textContent=labs.length;
-  document.getElementById('resInfo').textContent=filtered.length!==labs.length?`${filtered.length} résultat${filtered.length>1?'s':''}`:`${labs.length} lab${labs.length>1?'s':''}`;
-
-  if(!filtered.length){
-    document.getElementById('grid').innerHTML=`<div class="empty"><span class="eico">🔍</span><h3>Aucun résultat pour "${q||activeFilter}"</h3><p style="font-size:.8rem;margin-top:4px">Essaie un autre mot-clé ou ajoute un nouveau lab.</p></div>`;
-    return;
+  // Count badge
+  function updateCount() {
+    const visible = document.querySelectorAll('.card:not(.hidden)').length;
+    countBadge.textContent = visible + ' ressource' + (visible > 1 ? 's' : '');
+    emptyState.classList.toggle('visible', visible === 0);
   }
 
-  const TL={video:'▶ VIDÉO',packet:'PKT',both:'VIDÉO + PKT'};
-  document.getElementById('grid').innerHTML=filtered.map((l,i)=>{
-    const tpl=l.thumb?`<img src="${l.thumb}" alt="${l.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' ;
-    const ph=`<div class="thumb-bg" style="background:${l.bg||'var(--surface2)'}">${l.emoji||'📁'}</div>`;
-    const tgs=l.tags.map(t=>`<span class="tag">${t}</span>`).join('');
-    const vb=(l.type==='video'||l.type==='both')&&l.videoUrl?`<a class="cbtn primary" href="${l.videoUrl}" target="_blank" rel="noopener"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>Voir la vidéo</a>`:'';
-    const pb=(l.type==='packet'||l.type==='both')&&l.pktUrl?`<a class="cbtn" href="${l.pktUrl}" download><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Ouvrir .pkt</a>`:'';
-    return `<div class="card" style="animation-delay:${i*.05}s">
-      <div class="thumb">
-        ${tpl}${ph}
-        <div class="thumb-ov">${vb?`<div class="play-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg></div>`:''}</div>
-        <span class="b-type ${l.type}">${TL[l.type]}</span>
-        ${l.dur?`<span class="b-dur">${l.dur}</span>`:''}
-      </div>
-      <div class="card-body">
-        <div class="card-title">${l.title}</div>
-        <div class="card-chapter">${CHAPTERS[l.ch]||''}${l.date?` · ${l.date}`:''}</div>
-        <div class="card-desc">${l.desc}</div>
-        <div class="card-tags">${tgs}</div>
-        ${vb||pb?`<div class="card-btns">${vb}${pb}</div>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
+  updateCount();
 
-// filters
-document.getElementById('chipsbar').addEventListener('click',e=>{
-  const b=e.target.closest('.chip');if(!b)return;
-  activeFilter=b.dataset.filter;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  b.classList.add('active');
-  document.getElementById('secTitle').textContent=CHIP_TITLES[activeFilter]||'Labs';
-  syncSidebar();render();
-});
-function setSide(f,el){
-  activeFilter=f;
-  document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.filter===f));
-  document.getElementById('secTitle').textContent=CHIP_TITLES[f]||'Labs';
-  render();
-}
-function syncSidebar(){document.querySelectorAll('.sb-item').forEach(s=>s.classList.toggle('active',s.dataset.side===activeFilter));}
-document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value;render();});
+  // ═══ SEARCH ═══
+  function filterCards() {
+    const query = searchInput.value.toLowerCase().trim();
+    cards.forEach(card => {
+      const matchType   = currentFilter === 'all' || card.dataset.type === currentFilter;
+      const searchText  = (card.dataset.tags + ' ' + card.dataset.title + ' ' + card.dataset.desc).toLowerCase();
+      const matchSearch = !query || searchText.includes(query);
+      card.classList.toggle('hidden', !(matchType && matchSearch));
+    });
+    updateCount();
+  }
 
-// modal
-function openModal(){document.getElementById('overlay').classList.add('open');}
-function closeModal(){document.getElementById('overlay').classList.remove('open');['f-title','f-desc','f-video','f-pkt','f-thumb','f-tags','f-dur'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-type').value='both';document.getElementById('f-chap').value='ch1';}
-function closeBg(e){if(e.target===document.getElementById('overlay'))closeModal();}
-function saveCard(){
-  const title=document.getElementById('f-title').value.trim();
-  if(!title){alert('Le titre est obligatoire.');return;}
-  const tags=document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  labs.unshift({id:Date.now(),title,desc:document.getElementById('f-desc').value.trim(),ch:document.getElementById('f-chap').value,type:document.getElementById('f-type').value,videoUrl:document.getElementById('f-video').value.trim(),pktUrl:document.getElementById('f-pkt').value.trim(),thumb:document.getElementById('f-thumb').value.trim(),emoji:'📂',bg:'linear-gradient(135deg,#0e1520,#151e2c)',dur:document.getElementById('f-dur').value.trim(),tags,date:new Date().toLocaleDateString('fr-FR',{month:'short',year:'numeric'})});
-  closeModal();render();
-}
+  searchInput.addEventListener('input', filterCards);
 
-render();
+  // ═══ FILTERS ═══
+  filterTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      filterTags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+      currentFilter = tag.dataset.filter;
+      filterCards();
+    });
+  });
+
+  // ═══ MODAL ═══
+  const typeLabels = {
+    video:  { label: '▶ VIDÉO',         color: '#ff3b5c' },
+    lab:    { label: '⚙ PACKET TRACER', color: '#00b4ff' },
+    theory: { label: '📄 THÉORIE',      color: '#ff6b35' },
+  };
+
+  const typeActions = {
+    video: (file, title) => `
+      <a class="btn-primary" href="${file}" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="white"/></svg>
+        Regarder sur YouTube
+      </a>`,
+    lab: (file, title) => `
+      <a class="btn-primary" href="${file}" download>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger le fichier .pkt
+      </a>
+      <button class="btn-secondary" onclick="closeModalDirect()">Fermer</button>`,
+    theory: (file, title) => `
+      <a class="btn-primary" href="${file}" target="_blank">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+        Ouvrir le document
+      </a>
+      <a class="btn-secondary" href="${file}" download>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger
+      </a>`,
+  };
+
+  function openModal(source) {
+    let type, title, desc, file;
+
+    if (source === 'featured') {
+      type  = 'video';
+      title = 'Modèle OSI — Les 7 couches expliquées';
+      desc  = 'Comprendre le modèle de référence OSI est la base indispensable pour toute certification CCNA. Cette vidéo détaille chaque couche, son rôle et les protocoles associés avec des exemples concrets.';
+      file  = 'https://youtu.be/Va8nsdWfapE';
+    } else {
+      type  = source.dataset.type;
+      title = source.dataset.title;
+      desc  = source.dataset.desc;
+      file  = source.dataset.file;
+    }
+
+    const info = typeLabels[type];
+    document.getElementById('modalType').innerHTML  = `<span style="color:${info.color};font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase">${info.label}</span>`;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalDesc').textContent  = desc;
+    document.getElementById('modalActions').innerHTML = typeActions[type](file, title);
+
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+  }
+
+  function closeModalDirect() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+  // ═══ KEYBOARD SHORTCUT : focus search ═══
+  document.addEventListener('keydown', e => {
+    if ((e.key === '/' || e.key === 'k' && e.ctrlKey) && document.activeElement !== searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+  });
 </script>
 </body>
 </html>
