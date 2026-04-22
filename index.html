@@ -1,1132 +1,654 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CCNA Lab — Documentation Réseau</title>
+  <title>CCNA Lab · Sedagbe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    /* ══════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════ */
     :root {
-      --bg-deep:    #080c14;
-      --bg-card:    #0d1422;
-      --bg-hover:   #111d30;
-      --border:     #1a2a45;
-      --accent:     #00b4ff;
-      --accent2:    #00ffc8;
-      --accent3:    #ff6b35;
-      --text:       #c8d8f0;
-      --text-muted: #4a6080;
-      --tag-bg:     #0a1a2e;
-      --red:        #ff3b5c;
+      --night:   #05080f;
+      --deep:    #080d1a;
+      --surface: #0c1322;
+      --card:    #101828;
+      --border:  rgba(255,255,255,0.07);
+      --border2: rgba(0,200,255,0.2);
+      --cyan:    #00c8ff;
+      --cyan2:   #00ffcc;
+      --gold:    #f5c542;
+      --red:     #ff4560;
+      --white:   #f0f6ff;
+      --muted:   #5a7090;
+      --muted2:  #3a5070;
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'DM Mono', monospace;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg-deep);
-      color: var(--text);
-      font-family: 'Exo 2', sans-serif;
+      background: var(--night);
+      color: var(--white);
+      font-family: var(--font-body);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* === BACKGROUND GRID === */
+    /* NOISE */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px; opacity: 0.5;
     }
 
-    /* === HEADER === */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8,12,20,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 13px;
-      color: #000;
-      font-weight: bold;
-    }
-
-    .logo-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-
-    .logo-text span {
-      color: var(--accent);
-    }
-
-    /* === SEARCH BAR === */
-    .search-wrap {
-      flex: 1;
-      max-width: 560px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .search-wrap input {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 10px 48px 10px 20px;
-      color: var(--text);
-      font-family: 'Exo 2', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .search-wrap input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(0,180,255,0.12);
-    }
-
-    .search-wrap input::placeholder { color: var(--text-muted); }
-
-    .search-btn {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      transition: color 0.2s;
-    }
-    .search-btn:hover { color: var(--accent); }
-
-    .header-stats {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-shrink: 0;
-    }
-
-    .stat-badge {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--accent2);
-      background: rgba(0,255,200,0.06);
-      border: 1px solid rgba(0,255,200,0.15);
-      border-radius: 4px;
-      padding: 4px 10px;
-      letter-spacing: 0.5px;
-    }
-
-    /* === MAIN LAYOUT === */
-    main {
-      position: relative;
-      z-index: 1;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 28px 20px 60px;
-    }
-
-    /* === SECTION HEADER === */
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-family: 'Share Tech Mono', monospace;
-      color: var(--text-muted);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title::before {
+    /* DOT GRID */
+    body::after {
       content: '';
-      display: inline-block;
-      width: 3px;
-      height: 14px;
-      background: var(--accent);
-      border-radius: 2px;
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(0,200,255,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
     }
 
-    .filter-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .filter-tag {
-      padding: 5px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--tag-bg);
-      color: var(--text-muted);
-      font-size: 12px;
-      font-family: 'Share Tech Mono', monospace;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .filter-tag:hover,
-    .filter-tag.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(0,180,255,0.08);
-    }
-
-    /* === FEATURED VIDEO === */
-    .featured-section {
-      margin-bottom: 48px;
-    }
-
-    .featured-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1.6fr 1fr;
-      transition: border-color 0.3s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .featured-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 40px rgba(0,180,255,0.08);
-    }
-
-    .featured-thumb {
-      position: relative;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #0a1530 0%, #0d2040 50%, #091525 100%);
-      overflow: hidden;
-    }
-
-    .featured-thumb .thumb-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.2);
-    }
-
-    .play-btn {
-      width: 72px;
-      height: 72px;
-      background: rgba(0,180,255,0.15);
-      border: 2px solid var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      backdrop-filter: blur(8px);
-    }
-
-    .featured-card:hover .play-btn {
-      background: rgba(0,180,255,0.3);
-      transform: scale(1.1);
-    }
-
-    .play-btn svg { margin-left: 6px; }
-
-    .featured-thumb .network-svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.6;
-    }
-
-    .duration-badge {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0,0,0,0.8);
-      color: #fff;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 4px;
-    }
-
-    .type-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 4px;
-      letter-spacing: 1px;
-    }
-    .type-video  { background: rgba(255,59,92,0.85); color: #fff; }
-    .type-lab    { background: rgba(0,180,255,0.85); color: #000; }
-    .type-theory { background: rgba(255,107,53,0.85); color: #fff; }
-
-    .featured-info {
-      padding: 32px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .featured-eyebrow {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--accent2);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .featured-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.3;
-    }
-
-    .featured-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .featured-meta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-muted);
-      font-family: 'Share Tech Mono', monospace;
-    }
-
-    .meta-item svg { color: var(--accent); }
-
-    .tag-list {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 11px;
-      font-family: 'Share Tech Mono', monospace;
-      padding: 3px 9px;
-      border-radius: 3px;
-    }
-
-    .open-btn {
-      margin-top: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
-      background: linear-gradient(135deg, var(--accent), #0080cc);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      align-self: flex-start;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .open-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-
-    /* === GRID === */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(5,8,15,0.88);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      height: 60px;
+      display: flex; align-items: center;
+      padding: 0 clamp(16px, 5vw, 48px);
       gap: 20px;
     }
 
-    /* === CARD === */
-    .card {
-      background: var(--bg-card);
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; flex-shrink: 0;
+    }
+    .logo-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan2));
+      border-radius: 8px;
+      display: grid; place-items: center;
+      font-family: var(--font-mono); font-size: 11px; color: #000;
+      box-shadow: 0 0 16px rgba(0,200,255,0.35);
+    }
+    .logo-name {
+      font-family: var(--font-display); font-weight: 800; font-size: 17px;
+      color: var(--white); letter-spacing: -0.3px;
+    }
+    .logo-name em { color: var(--cyan); font-style: normal; }
+
+    .header-center { flex: 1; display: flex; justify-content: center; }
+
+    .search-box { position: relative; width: 100%; max-width: 440px; }
+    .search-box input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 10px;
+      padding: 9px 40px 9px 16px;
+      font-family: var(--font-body); font-size: 13.5px;
+      color: var(--white); outline: none;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+    }
+    .search-box input::placeholder { color: var(--muted); }
+    .search-box input:focus {
+      border-color: var(--cyan);
+      background: rgba(0,200,255,0.04);
+      box-shadow: 0 0 0 3px rgba(0,200,255,0.1);
+    }
+    .search-icon {
+      position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); pointer-events: none;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .pill {
+      font-family: var(--font-mono); font-size: 10.5px;
+      padding: 4px 11px; border-radius: 20px;
+      border: 1px solid rgba(0,255,204,0.2);
+      color: var(--cyan2); background: rgba(0,255,204,0.05); letter-spacing: .5px;
+    }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .hero {
+      position: relative; z-index: 1;
+      padding: clamp(48px, 8vw, 96px) clamp(16px, 5vw, 48px) clamp(32px, 5vw, 60px);
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: center;
+      max-width: 1280px; margin: 0 auto;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; left: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(0,200,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── LEFT TEXT ── */
+    .hero-text { position: relative; }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--cyan); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block; width: 28px; height: 1px; background: var(--cyan);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4.5vw, 56px);
+      font-weight: 800; line-height: 1.08; letter-spacing: -1.5px;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .hero-title .accent { color: var(--cyan); }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--white) 0%, rgba(240,246,255,0.45) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 15px; line-height: 1.7;
+      color: var(--muted); max-width: 440px; margin-bottom: 32px;
+    }
+
+    .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .htag {
+      font-family: var(--font-mono); font-size: 11px;
+      padding: 5px 13px; border-radius: 6px;
+      border: 1px solid var(--border2); color: var(--cyan);
+      background: rgba(0,200,255,0.05); letter-spacing: .5px;
+      transition: background .2s;
+    }
+    .htag:hover { background: rgba(0,200,255,0.12); }
+
+    /* ── VIDEO CARD ── */
+    .hero-video { position: relative; }
+
+    .video-card {
+      position: relative; border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 1px rgba(0,200,255,0.08), 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,200,255,0.06);
       cursor: pointer;
-      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      animation: fadeUp 0.4s ease both;
+      transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+      text-decoration: none; display: block;
+    }
+    .video-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 0 0 1px rgba(0,200,255,0.3), 0 32px 100px rgba(0,0,0,0.7), 0 0 80px rgba(0,200,255,0.14);
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: 0 8px 30px rgba(0,180,255,0.1);
+    .thumb-wrap {
+      position: relative; aspect-ratio: 16/9; overflow: hidden;
+    }
+    .thumb-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s cubic-bezier(.22,1,.36,1);
+    }
+    .video-card:hover .thumb-wrap img { transform: scale(1.04); }
+    .thumb-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(5,8,15,0.75) 100%);
     }
 
-    .card.hidden { display: none; }
+    .play-ring {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .play-circle {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: rgba(0,200,255,0.15);
+      border: 2px solid rgba(0,200,255,0.6);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s;
+      box-shadow: 0 0 30px rgba(0,200,255,0.3);
+    }
+    .video-card:hover .play-circle {
+      background: rgba(0,200,255,0.28);
+      box-shadow: 0 0 50px rgba(0,200,255,0.5);
+      transform: scale(1.1);
+    }
+    .play-circle svg { margin-left: 5px; }
 
+    .vbadge {
+      position: absolute; top: 14px; left: 14px; z-index: 3;
+      font-family: var(--font-mono); font-size: 10px;
+      padding: 4px 10px; border-radius: 5px;
+      background: rgba(255,69,96,0.88); color: #fff; letter-spacing: 1px;
+      backdrop-filter: blur(4px);
+    }
+
+    .video-info {
+      background: var(--card);
+      padding: 18px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .video-info-left { flex: 1; min-width: 0; }
+    .video-label {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--cyan2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
+    }
+    .video-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(13px, 2vw, 15px);
+      color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .video-meta {
+      display: flex; align-items: center; gap: 6px; margin-top: 4px;
+      font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+    }
+    .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted2); }
+
+    .watch-btn {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, var(--cyan) 0%, #008acc 100%);
+      color: #000; font-weight: 700; font-size: 12.5px;
+      border-radius: 9px; border: none; text-decoration: none;
+      transition: opacity .2s, transform .2s; white-space: nowrap;
+    }
+    .watch-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+    .deco-line {
+      position: absolute; right: -20px; top: 30%;
+      width: 1px; height: 40%;
+      background: linear-gradient(to bottom, transparent, var(--cyan), transparent);
+      opacity: 0.25;
+    }
+
+    /* ══════════════════════════════════════
+       STATS BAR
+    ══════════════════════════════════════ */
+    .stats-bar {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,19,34,0.6); backdrop-filter: blur(10px);
+    }
+    .stats-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 clamp(16px, 5vw, 48px);
+      display: flex; align-items: stretch;
+    }
+    .stat-item {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 18px 12px; border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      display: grid; place-items: center;
+      background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.15); flex-shrink: 0;
+    }
+    .stat-text { line-height: 1.2; }
+    .stat-num {
+      font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--white);
+    }
+    .stat-lbl {
+      font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .5px;
+    }
+
+    /* ══════════════════════════════════════
+       COMING SOON
+    ══════════════════════════════════════ */
+    .content-section {
+      position: relative; z-index: 1;
+      max-width: 1280px; margin: 0 auto;
+      padding: clamp(40px, 6vw, 72px) clamp(16px, 5vw, 48px);
+    }
+    .section-label {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+    }
+    .section-label-text {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--muted); letter-spacing: 2.5px; text-transform: uppercase; white-space: nowrap;
+    }
+    .section-label-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--border2), transparent);
+    }
+
+    .coming-soon {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; padding: 64px 24px;
+      border: 1px dashed rgba(0,200,255,0.15); border-radius: 20px;
+      background: rgba(0,200,255,0.02); text-align: center;
+    }
+    .cs-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(0,200,255,0.07); border: 1px solid rgba(0,200,255,0.15);
+      display: grid; place-items: center;
+    }
+    .cs-title {
+      font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--white);
+    }
+    .cs-desc {
+      font-size: 14px; color: var(--muted); max-width: 360px; line-height: 1.6;
+    }
+    .progress-wrap { width: 240px; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 8px;
+    }
+    .progress-track {
+      height: 4px; border-radius: 2px; background: rgba(255,255,255,0.06); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 14%;
+      background: linear-gradient(90deg, var(--cyan), var(--cyan2));
+      border-radius: 2px; animation: pulse-bar 2s ease-in-out infinite;
+    }
+    @keyframes pulse-bar {
+      0%,100% { opacity: 1; } 50% { opacity: .55; }
+    }
+
+    /* ══════════════════════════════════════
+       NO RESULT
+    ══════════════════════════════════════ */
+    .no-result {
+      display: none; text-align: center; padding: 48px 20px;
+    }
+    .no-result.show { display: block; }
+    .no-result p {
+      font-family: var(--font-mono); font-size: 13px; color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 28px clamp(16px, 5vw, 48px);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 10px; }
+    .footer-logo {
+      font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--muted);
+    }
+    .footer-logo em { color: var(--cyan); font-style: normal; }
+    .footer-sep { color: var(--muted2); }
+    .footer-by { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .5px; }
+    .footer-by strong { color: var(--cyan2); }
+    .footer-right { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted2); letter-spacing: .5px; }
+
+    /* ══════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════ */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    .anim-1 { animation: fadeUp .7s .05s both; }
+    .anim-2 { animation: fadeUp .7s .15s both; }
+    .anim-3 { animation: fadeUp .7s .25s both; }
+    .anim-4 { animation: fadeUp .7s .35s both; }
+    .anim-5 { animation: fadeUp .7s .45s both; }
 
-    .card-thumb {
-      position: relative;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #0a1530, #091828);
-      overflow: hidden;
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; }
+      .hero-title { letter-spacing: -1px; }
+      .hero-desc { max-width: 100%; }
+      .deco-line { display: none; }
     }
 
-    .card-thumb .thumb-bg {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    @media (max-width: 640px) {
+      .stats-inner { flex-wrap: wrap; }
+      .stat-item { flex: 1 1 48%; border-bottom: 1px solid var(--border); }
+      .stat-item:nth-child(even) { border-right: none; }
+      .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+      .header-right { display: none; }
+      .search-box { max-width: 100%; }
+      .video-info { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .watch-btn { width: 100%; justify-content: center; }
+      footer { flex-direction: column; align-items: flex-start; gap: 6px; }
     }
 
-    .thumb-icon {
-      font-size: 48px;
-      opacity: 0.15;
-      user-select: none;
-    }
-
-    .card-thumb .card-hover-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,180,255,0.08);
-      opacity: 0;
-      transition: opacity 0.25s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .card:hover .card-hover-overlay { opacity: 1; }
-
-    .small-play {
-      width: 44px;
-      height: 44px;
-      background: rgba(0,180,255,0.2);
-      border: 1.5px solid var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Colored accent lines per card */
-    .card-thumb::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .card[data-type="video"]  .card-thumb::after { background: var(--red); }
-    .card[data-type="lab"]    .card-thumb::after { background: var(--accent); }
-    .card[data-type="theory"] .card-thumb::after { background: var(--accent3); }
-
-    .card-body {
-      padding: 14px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #e8f0ff;
-      line-height: 1.4;
-    }
-
-    .card-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      flex: 1;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 4px;
-    }
-
-    .card-type-label {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 1px;
-      padding: 3px 8px;
-      border-radius: 3px;
-    }
-    .card[data-type="video"]  .card-type-label { color: var(--red);    background: rgba(255,59,92,0.08);  border: 1px solid rgba(255,59,92,0.2); }
-    .card[data-type="lab"]    .card-type-label { color: var(--accent); background: rgba(0,180,255,0.08); border: 1px solid rgba(0,180,255,0.2); }
-    .card[data-type="theory"] .card-type-label { color: var(--accent3); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); }
-
-    .card-date {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    /* === EMPTY STATE === */
-    .empty-state {
-      display: none;
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text-muted);
-    }
-
-    .empty-state.visible { display: block; }
-
-    .empty-state svg {
-      margin: 0 auto 16px;
-      display: block;
-      opacity: 0.3;
-    }
-
-    .empty-state p { font-family: 'Share Tech Mono', monospace; font-size: 13px; }
-
-    /* === MODAL === */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(6px);
-      padding: 20px;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 600px;
-      padding: 32px;
-      position: relative;
-      animation: modalIn 0.3s ease;
-    }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.96) translateY(10px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 16px; right: 16px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 22px;
-      transition: color 0.2s;
-    }
-    .modal-close:hover { color: #fff; }
-
-    .modal-type {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .modal h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .modal-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, var(--accent), #0080cc);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      text-decoration: none;
-    }
-    .btn-primary:hover { opacity: 0.85; }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: transparent;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-      text-decoration: none;
-    }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* === FOOTER === */
-    footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 24px;
-      text-align: center;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    footer span { color: var(--accent); }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 768px) {
-      header { padding: 0 14px; gap: 12px; }
-      .header-stats { display: none; }
-      .featured-card { grid-template-columns: 1fr; }
-      .featured-info { padding: 20px 18px; }
-      .featured-title { font-size: 17px; }
-      .cards-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-      main { padding: 20px 14px 50px; }
-    }
-
-    @media (max-width: 480px) {
-      .cards-grid { grid-template-columns: 1fr; }
-      .filter-tags { display: none; }
+    @media (max-width: 400px) {
+      .play-circle { width: 52px; height: 52px; }
+      .logo-name { font-size: 15px; }
+      .hero-tags { gap: 6px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ HEADER ═══ -->
+<!-- ══ HEADER ══ -->
 <header>
   <a href="#" class="logo">
-    <div class="logo-icon">NET</div>
-    <span class="logo-text">CCNA<span>Lab</span></span>
+    <div class="logo-mark">NET</div>
+    <span class="logo-name">CCNA<em>Lab</em></span>
   </a>
 
-  <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="Rechercher — OSI, VLAN, RIP, OSPF, STP…" />
-    <button class="search-btn" aria-label="Rechercher">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  <div class="header-center">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Rechercher — OSI, VLAN, OSPF…" autocomplete="off"/>
+      <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-    </button>
+    </div>
   </div>
 
-  <div class="header-stats">
-    <span class="stat-badge" id="countBadge">0 ressources</span>
+  <div class="header-right">
+    <span class="pill" id="countPill">1 ressource</span>
   </div>
 </header>
 
-<!-- ═══ MAIN ═══ -->
-<main>
+<!-- ══ HERO ══ -->
+<section class="hero">
 
-  <!-- FEATURED -->
-  <section class="featured-section">
-    <div class="section-header" style="margin-bottom:16px">
-      <span class="section-title">En vedette</span>
+  <div class="hero-text">
+    <div class="hero-eyebrow anim-1">Documentation CCNA</div>
+    <h1 class="hero-title anim-2">
+      Apprends les<br>
+      <span class="accent">fondamentaux</span>
+      <span class="line2">du réseau.</span>
+    </h1>
+    <p class="hero-desc anim-3">
+      Vidéos pédagogiques, labs Packet Tracer et fiches théoriques
+      pour préparer la certification Cisco CCNA — pas à pas.
+    </p>
+    <div class="hero-tags anim-4">
+      <span class="htag">OSI</span>
+      <span class="htag">TCP/IP</span>
+      <span class="htag">VLAN</span>
+      <span class="htag">OSPF</span>
+      <span class="htag">ACL</span>
+      <span class="htag">NAT</span>
     </div>
+  </div>
 
-    <div class="featured-card" onclick="openModal('featured')" style="cursor:pointer">
-      <div class="featured-thumb">
-        <!-- Thumbnail réelle de la vidéo -->
-        <img
-          src="thumbnail-osi.png"
-          alt="Modèle OSI — Les 7 couches"
-          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;"
-        />
-        <div class="thumb-overlay" style="background:rgba(0,0,0,0.25);">
-          <div class="play-btn">
-            <svg width="28" height="28" fill="#fff" viewBox="0 0 24 24">
+  <div class="hero-video anim-5" id="heroVideo">
+    <a class="video-card" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener">
+      <div class="thumb-wrap">
+        <img src="thumbnail-osi.png.png" alt="Modèle OSI — Les 7 couches expliquées"/>
+        <span class="vbadge">▶ VIDÉO</span>
+        <div class="play-ring">
+          <div class="play-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
               <polygon points="5,3 19,12 5,21"/>
             </svg>
           </div>
         </div>
-        <span class="type-badge type-video">▶ VIDÉO</span>
       </div>
-
-      <div class="featured-info">
-        <span class="featured-eyebrow">Fondamentaux réseau · Avril 2026</span>
-        <h2 class="featured-title">Modèle OSI — Les 7 couches expliquées</h2>
-        <p class="featured-desc">
-          Comprendre le modèle de référence OSI est la base indispensable pour toute certification CCNA.
-          Cette vidéo détaille chaque couche, son rôle et les protocoles associés avec des exemples concrets sur Packet Tracer.
-        </p>
-        <div class="tag-list">
-          <span class="tag">OSI</span>
-          <span class="tag">Encapsulation</span>
-          <span class="tag">TCP/IP</span>
-          <span class="tag">Protocoles</span>
-        </div>
-        <div class="featured-meta">
-          <span class="meta-item">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-            14 min 32 sec
-          </span>
-          <span class="meta-item">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <div class="video-info">
+        <div class="video-info-left">
+          <div class="video-label">Fondamentaux réseau · Avril 2026</div>
+          <div class="video-title">Modèle OSI — Les 7 couches expliquées</div>
+          <div class="video-meta">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            YouTube
+            <span class="dot"></span>
             Niveau débutant
-          </span>
+            <span class="dot"></span>
+            Sedagbe
+          </div>
         </div>
-        <a class="open-btn" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          Regarder sur YouTube
+        <a class="watch-btn" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+          Regarder
         </a>
       </div>
+    </a>
+    <div class="no-result" id="noResult">
+      <p>Aucun résultat pour cette recherche.</p>
     </div>
-  </section>
-
-  <!-- FILTER TAGS -->
-  <div class="section-header">
-    <span class="section-title">Toutes les ressources</span>
-    <div class="filter-tags">
-      <span class="filter-tag active" data-filter="all">Tout</span>
-      <span class="filter-tag" data-filter="video">Vidéos</span>
-      <span class="filter-tag" data-filter="lab">Labs Packet Tracer</span>
-      <span class="filter-tag" data-filter="theory">Théorie</span>
-    </div>
+    <div class="deco-line"></div>
   </div>
 
-  <!-- CARDS GRID -->
-  <div class="cards-grid" id="cardsGrid">
+</section>
 
-    <!-- CARD 1 — LAB -->
-    <div class="card" data-type="lab"
-         data-tags="vlan switch 802.1q trunk access inter-vlan"
-         data-title="Configuration VLAN et Trunking"
-         data-desc="Mise en place de VLANs sur des switches Cisco, configuration des ports trunk et access, et routage inter-VLAN."
-         data-file="labs/vlan-trunking.pkt"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🔀</span></div>
-        <span class="type-badge type-lab">PKT LAB</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Lab #01</span>
+<!-- ══ STATS BAR ══ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
       </div>
-      <div class="card-body">
-        <div class="card-title">Configuration VLAN et Trunking 802.1Q</div>
-        <div class="card-desc">Mise en place de VLANs sur switches Cisco, ports trunk/access et routage inter-VLAN.</div>
-        <div class="card-footer">
-          <span class="card-type-label">PACKET TRACER</span>
-          <span class="card-date">2024-01</span>
-        </div>
+      <div class="stat-text">
+        <div class="stat-num">1</div>
+        <div class="stat-lbl">Vidéo publiée</div>
       </div>
     </div>
-
-    <!-- CARD 2 — VIDEO -->
-    <div class="card" data-type="video"
-         data-tags="ospf routage dynamique area backbone lsa"
-         data-title="OSPF — Routage Dynamique"
-         data-desc="Comprendre le protocole OSPF, les aires, les LSA et la convergence du réseau."
-         data-file="videos/ospf-intro.mp4"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🗺️</span></div>
-        <span class="type-badge type-video">▶ VIDÉO</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#ff3b5c" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">22:15</span>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+          <polyline points="13,2 13,9 20,9"/>
+        </svg>
       </div>
-      <div class="card-body">
-        <div class="card-title">OSPF — Routage Dynamique & Convergence</div>
-        <div class="card-desc">Comprendre OSPF, les aires, les LSA et la convergence du réseau en profondeur.</div>
-        <div class="card-footer">
-          <span class="card-type-label">VIDÉO</span>
-          <span class="card-date">2024-02</span>
-        </div>
+      <div class="stat-text">
+        <div class="stat-num">0</div>
+        <div class="stat-lbl">Labs Packet Tracer</div>
       </div>
     </div>
-
-    <!-- CARD 3 — LAB -->
-    <div class="card" data-type="lab"
-         data-tags="acl access control list standard extended filtrage sécurité"
-         data-title="ACL Standard et Étendue"
-         data-desc="Création et application d'ACLs pour filtrer le trafic réseau sur routeurs Cisco."
-         data-file="labs/acl-standard-extended.pkt"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🛡️</span></div>
-        <span class="type-badge type-lab">PKT LAB</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Lab #02</span>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
       </div>
-      <div class="card-body">
-        <div class="card-title">ACL Standard et Étendue — Filtrage</div>
-        <div class="card-desc">Création et application d'ACLs pour filtrer le trafic réseau sur routeurs Cisco.</div>
-        <div class="card-footer">
-          <span class="card-type-label">PACKET TRACER</span>
-          <span class="card-date">2024-02</span>
-        </div>
+      <div class="stat-text">
+        <div class="stat-num">CCNA</div>
+        <div class="stat-lbl">Certification Cisco</div>
       </div>
     </div>
-
-    <!-- CARD 4 — THEORY -->
-    <div class="card" data-type="theory"
-         data-tags="ip adressage subnetting cidr masque sous-réseau ipv4"
-         data-title="Adressage IP et Subnetting"
-         data-desc="Maîtriser le découpage en sous-réseaux, CIDR et la notation slash."
-         data-file="docs/subnetting.pdf"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🔢</span></div>
-        <span class="type-badge type-theory">THÉORIE</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#ff6b35" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Guide</span>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="16" height="16" fill="none" stroke="var(--cyan)" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
       </div>
-      <div class="card-body">
-        <div class="card-title">Adressage IP & Subnetting CIDR</div>
-        <div class="card-desc">Maîtriser le découpage en sous-réseaux, CIDR et la notation slash avec exercices.</div>
-        <div class="card-footer">
-          <span class="card-type-label">THÉORIE</span>
-          <span class="card-date">2024-01</span>
-        </div>
+      <div class="stat-text">
+        <div class="stat-num">2026</div>
+        <div class="stat-lbl">En cours</div>
       </div>
     </div>
-
-    <!-- CARD 5 — LAB -->
-    <div class="card" data-type="lab"
-         data-tags="stp spanning tree bpdu root bridge loop prevention"
-         data-title="Spanning Tree Protocol STP"
-         data-desc="Prévention des boucles réseau avec STP, election du root bridge et états des ports."
-         data-file="labs/stp.pkt"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🌳</span></div>
-        <span class="type-badge type-lab">PKT LAB</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Lab #03</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">STP — Spanning Tree & Prévention des Boucles</div>
-        <div class="card-desc">Election du root bridge, états des ports STP et gestion des boucles réseau.</div>
-        <div class="card-footer">
-          <span class="card-type-label">PACKET TRACER</span>
-          <span class="card-date">2024-03</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 6 — VIDEO -->
-    <div class="card" data-type="video"
-         data-tags="dhcp serveur adresse dynamique pool lease relay agent"
-         data-title="DHCP — Configuration Serveur"
-         data-desc="Configuration d'un serveur DHCP sur IOS Cisco, pools d'adresses et DHCP relay agent."
-         data-file="videos/dhcp-config.mp4"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">📡</span></div>
-        <span class="type-badge type-video">▶ VIDÉO</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#ff3b5c" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">18:40</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">DHCP — Configuration Serveur sur IOS Cisco</div>
-        <div class="card-desc">Pools d'adresses, exclusions, DHCP relay agent et dépannage sur Cisco IOS.</div>
-        <div class="card-footer">
-          <span class="card-type-label">VIDÉO</span>
-          <span class="card-date">2024-03</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 7 — THEORY -->
-    <div class="card" data-type="theory"
-         data-tags="ipv6 adressage stateless slaac nd protocol migration"
-         data-title="Introduction à IPv6"
-         data-desc="Structure des adresses IPv6, SLAAC, NDP et migration depuis IPv4."
-         data-file="docs/ipv6-intro.pdf"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🌐</span></div>
-        <span class="type-badge type-theory">THÉORIE</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#ff6b35" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Guide</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">Introduction à IPv6 — Structure & SLAAC</div>
-        <div class="card-desc">Structure des adresses IPv6, Neighbor Discovery Protocol et migration depuis IPv4.</div>
-        <div class="card-footer">
-          <span class="card-type-label">THÉORIE</span>
-          <span class="card-date">2024-04</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 8 — LAB -->
-    <div class="card" data-type="lab"
-         data-tags="nat pat overload translation adresse privée publique"
-         data-title="NAT/PAT — Translation d'adresses"
-         data-desc="Configuration NAT statique, dynamique et PAT (overload) sur routeur Cisco."
-         data-file="labs/nat-pat.pkt"
-         onclick="openModal(this)">
-      <div class="card-thumb">
-        <div class="thumb-bg"><span class="thumb-icon">🔄</span></div>
-        <span class="type-badge type-lab">PKT LAB</span>
-        <div class="card-hover-overlay">
-          <div class="small-play">
-            <svg width="18" height="18" fill="#00b4ff" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-          </div>
-        </div>
-        <span class="duration-badge">Lab #04</span>
-      </div>
-      <div class="card-body">
-        <div class="card-title">NAT / PAT — Translation d'Adresses IP</div>
-        <div class="card-desc">NAT statique, dynamique et PAT (overload) sur routeur Cisco avec vérification.</div>
-        <div class="card-footer">
-          <span class="card-type-label">PACKET TRACER</span>
-          <span class="card-date">2024-04</span>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /cards-grid -->
-
-  <div class="empty-state" id="emptyState">
-    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-    <p>Aucun résultat pour votre recherche.</p>
-  </div>
-
-</main>
-
-<footer>
-  <span>CCNA</span>Lab — Documentation Réseau Personnel &nbsp;·&nbsp; Hébergé sur <span>GitHub Pages</span>
-</footer>
-
-<!-- ═══ MODAL ═══ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal" id="modalBox">
-    <button class="modal-close" onclick="closeModalDirect()">✕</button>
-    <div class="modal-type" id="modalType"></div>
-    <h2 id="modalTitle"></h2>
-    <p class="modal-desc" id="modalDesc"></p>
-    <div class="modal-actions" id="modalActions"></div>
   </div>
 </div>
 
+<!-- ══ CONTENT SECTION ══ -->
+<div class="content-section">
+  <div class="section-label">
+    <span class="section-label-text">Prochaines ressources</span>
+    <div class="section-label-line"></div>
+  </div>
+
+  <div class="coming-soon">
+    <div class="cs-icon">
+      <svg width="24" height="24" fill="none" stroke="var(--cyan)" stroke-width="1.5" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12,6 12,12 16,14"/>
+      </svg>
+    </div>
+    <div class="cs-title">Labs &amp; vidéos à venir</div>
+    <div class="cs-desc">
+      VLAN, STP, OSPF, ACL, NAT, DHCP… Les prochains labs Packet Tracer
+      et vidéos seront publiés ici au fil de l'avancement.
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Progression CCNA</span>
+        <span>14 %</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-left">
+    <span class="footer-logo">CCNA<em>Lab</em></span>
+    <span class="footer-sep">·</span>
+    <span class="footer-by">par <strong>Sedagbe</strong></span>
+  </div>
+  <div class="footer-right">Hébergé sur GitHub Pages · 2026</div>
+</footer>
+
 <script>
-  // ═══ DATA ═══
-  const cards = document.querySelectorAll('.card');
   const searchInput = document.getElementById('searchInput');
-  const emptyState = document.getElementById('emptyState');
-  const countBadge = document.getElementById('countBadge');
-  const filterTags = document.querySelectorAll('.filter-tag');
+  const videoCard   = document.querySelector('.video-card');
+  const noResult    = document.getElementById('noResult');
+  const countPill   = document.getElementById('countPill');
 
-  let currentFilter = 'all';
+  const KEYWORDS = [
+    'osi','couche','layer','application','présentation','session',
+    'transport','réseau','liaison','physique','encapsulation',
+    'modèle','model','tcp','ip','protocole','ccna',
+    'fondamentaux','network','open','systems','interconnection'
+  ];
 
-  // Count badge
-  function updateCount() {
-    const visible = document.querySelectorAll('.card:not(.hidden)').length;
-    countBadge.textContent = visible + ' ressource' + (visible > 1 ? 's' : '');
-    emptyState.classList.toggle('visible', visible === 0);
-  }
-
-  updateCount();
-
-  // ═══ SEARCH ═══
-  function filterCards() {
-    const query = searchInput.value.toLowerCase().trim();
-    cards.forEach(card => {
-      const matchType   = currentFilter === 'all' || card.dataset.type === currentFilter;
-      const searchText  = (card.dataset.tags + ' ' + card.dataset.title + ' ' + card.dataset.desc).toLowerCase();
-      const matchSearch = !query || searchText.includes(query);
-      card.classList.toggle('hidden', !(matchType && matchSearch));
-    });
-    updateCount();
-  }
-
-  searchInput.addEventListener('input', filterCards);
-
-  // ═══ FILTERS ═══
-  filterTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      filterTags.forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
-      currentFilter = tag.dataset.filter;
-      filterCards();
-    });
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    if (!q) {
+      videoCard.style.display = 'block';
+      noResult.classList.remove('show');
+      countPill.textContent = '1 ressource';
+      return;
+    }
+    const match = KEYWORDS.some(k => k.includes(q) || q.split(' ').some(w => k.includes(w)));
+    videoCard.style.display = match ? 'block' : 'none';
+    noResult.classList.toggle('show', !match);
+    countPill.textContent = match ? '1 résultat' : '0 résultat';
   });
 
-  // ═══ MODAL ═══
-  const typeLabels = {
-    video:  { label: '▶ VIDÉO',         color: '#ff3b5c' },
-    lab:    { label: '⚙ PACKET TRACER', color: '#00b4ff' },
-    theory: { label: '📄 THÉORIE',      color: '#ff6b35' },
-  };
-
-  const typeActions = {
-    video: (file, title) => `
-      <a class="btn-primary" href="${file}" target="_blank" rel="noopener">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="white"/></svg>
-        Regarder sur YouTube
-      </a>`,
-    lab: (file, title) => `
-      <a class="btn-primary" href="${file}" download>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger le fichier .pkt
-      </a>
-      <button class="btn-secondary" onclick="closeModalDirect()">Fermer</button>`,
-    theory: (file, title) => `
-      <a class="btn-primary" href="${file}" target="_blank">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-        Ouvrir le document
-      </a>
-      <a class="btn-secondary" href="${file}" download>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger
-      </a>`,
-  };
-
-  function openModal(source) {
-    let type, title, desc, file;
-
-    if (source === 'featured') {
-      type  = 'video';
-      title = 'Modèle OSI — Les 7 couches expliquées';
-      desc  = 'Comprendre le modèle de référence OSI est la base indispensable pour toute certification CCNA. Cette vidéo détaille chaque couche, son rôle et les protocoles associés avec des exemples concrets.';
-      file  = 'https://youtu.be/Va8nsdWfapE';
-    } else {
-      type  = source.dataset.type;
-      title = source.dataset.title;
-      desc  = source.dataset.desc;
-      file  = source.dataset.file;
-    }
-
-    const info = typeLabels[type];
-    document.getElementById('modalType').innerHTML  = `<span style="color:${info.color};font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase">${info.label}</span>`;
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalDesc').textContent  = desc;
-    document.getElementById('modalActions').innerHTML = typeActions[type](file, title);
-
-    document.getElementById('modalOverlay').classList.add('open');
-  }
-
-  function closeModal(e) {
-    if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
-  }
-
-  function closeModalDirect() {
-    document.getElementById('modalOverlay').classList.remove('open');
-  }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
-
-  // ═══ KEYBOARD SHORTCUT : focus search ═══
+  // Keyboard shortcut : / focuses search
   document.addEventListener('keydown', e => {
-    if ((e.key === '/' || e.key === 'k' && e.ctrlKey) && document.activeElement !== searchInput) {
-      e.preventDefault();
-      searchInput.focus();
+    if (e.key === '/' && document.activeElement !== searchInput) {
+      e.preventDefault(); searchInput.focus();
     }
   });
 </script>
