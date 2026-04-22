@@ -7,9 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-  /* ══════════════════════════════════════════
-     RESET
-  ══════════════════════════════════════════ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
   body {
@@ -23,9 +20,6 @@
   a { text-decoration: none; color: inherit; }
   img { display: block; }
 
-  /* ══════════════════════════════════════════
-     TOKENS
-  ══════════════════════════════════════════ */
   :root {
     --bg:      #080808;
     --bg2:     #0f0f0f;
@@ -43,19 +37,11 @@
     --mono:    'Geist Mono', monospace;
   }
 
-  /* ══════════════════════════════════════════
-     CANVAS BACKGROUND LINES (JS drawn)
-  ══════════════════════════════════════════ */
   #bg-canvas {
-    position: fixed;
-    inset: 0; z-index: 0;
-    pointer-events: none;
-    opacity: .35;
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none; opacity: .35;
   }
 
-  /* ══════════════════════════════════════════
-     HEADER
-  ══════════════════════════════════════════ */
   header {
     position: sticky; top: 0; z-index: 200;
     background: rgba(8,8,8,0.9);
@@ -75,33 +61,23 @@
     display: flex; align-items: center; gap: 24px;
   }
 
-  .logo {
-    display: flex; align-items: center; gap: 11px; flex-shrink: 0;
-  }
+  .logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
   .logo-sq {
     width: 32px; height: 32px;
-    border: 1.5px solid var(--white);
-    border-radius: 6px;
+    border: 1.5px solid var(--white); border-radius: 6px;
     display: grid; place-items: center;
     font-family: var(--mono); font-size: 9px; color: var(--white);
-    letter-spacing: .5px;
-    transition: background .2s, color .2s;
+    letter-spacing: .5px; transition: background .2s, color .2s;
   }
   .logo:hover .logo-sq { background: var(--white); color: #000; }
-  .logo-text {
-    font-family: var(--sans); font-weight: 600; font-size: 15px;
-    letter-spacing: -.3px;
-  }
+  .logo-text { font-family: var(--sans); font-weight: 600; font-size: 15px; letter-spacing: -.3px; }
   .logo-text em { font-style: normal; color: var(--red2); }
 
   .nav-center { flex: 1; display: flex; justify-content: center; }
-
   .search-wrap { position: relative; width: 100%; max-width: 420px; }
   .search-wrap input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    width: 100%; background: var(--bg3);
+    border: 1px solid var(--border); border-radius: 8px;
     padding: 9px 38px 9px 14px;
     font-family: var(--sans); font-size: 13.5px;
     color: var(--white); outline: none;
@@ -109,22 +85,17 @@
   }
   .search-wrap input::placeholder { color: var(--muted2); }
   .search-wrap input:focus {
-    border-color: var(--border2);
-    background: var(--bg4);
+    border-color: var(--border2); background: var(--bg4);
     box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
   }
   .search-wrap svg {
     position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    color: var(--muted2); pointer-events: none;
-    transition: color .2s;
+    color: var(--muted2); pointer-events: none; transition: color .2s;
   }
   .search-wrap input:focus + svg { color: var(--muted); }
 
   .nav-right { flex-shrink: 0; display: flex; align-items: center; gap: 16px; }
-  .nav-pill {
-    font-family: var(--mono); font-size: 10.5px;
-    color: var(--muted); letter-spacing: .5px;
-  }
+  .nav-pill { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: .5px; }
   .live-dot {
     width: 7px; height: 7px; border-radius: 50%; background: var(--red);
     animation: pulse-dot 1.8s ease-in-out infinite;
@@ -135,61 +106,36 @@
     50%      { opacity:.4; transform:scale(.7); }
   }
 
-  /* ══════════════════════════════════════════
-     PAGE
-  ══════════════════════════════════════════ */
   .page {
     position: relative; z-index: 1;
     max-width: 1200px; margin: 0 auto;
     padding: 0 clamp(20px,4vw,48px);
   }
 
-  /* ══════════════════════════════════════════
-     MASTHEAD
-  ══════════════════════════════════════════ */
   .masthead {
     padding: clamp(56px,8vw,100px) 0 clamp(40px,5vw,60px);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(32px,5vw,80px);
-    align-items: end;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(32px,5vw,80px); align-items: end;
     border-bottom: 1px solid var(--border);
   }
-
   .mast-kicker {
     display: flex; align-items: center; gap: 10px;
     font-family: var(--mono); font-size: 11px;
     color: var(--muted); letter-spacing: 2.5px; text-transform: uppercase;
-    margin-bottom: 16px;
-    opacity: 0; animation: fadeUp .6s .1s both;
+    margin-bottom: 16px; opacity: 0; animation: fadeUp .6s .1s both;
   }
-  .mast-kicker::before {
-    content: ''; width: 24px; height: 1px; background: var(--muted);
-  }
-
+  .mast-kicker::before { content: ''; width: 24px; height: 1px; background: var(--muted); }
   .mast-title {
-    font-family: var(--serif);
-    font-size: clamp(44px,7vw,86px);
-    font-weight: 400; line-height: .92; letter-spacing: -2px;
-    color: var(--white);
+    font-family: var(--serif); font-size: clamp(44px,7vw,86px);
+    font-weight: 400; line-height: .92; letter-spacing: -2px; color: var(--white);
     opacity: 0; animation: fadeUp .7s .18s both;
   }
-  .mast-title em {
-    font-style: italic; color: transparent;
-    -webkit-text-stroke: 1.5px var(--white);
-  }
-
-  .mast-right {
-    opacity: 0; animation: fadeUp .7s .3s both;
-  }
-
+  .mast-title em { font-style: italic; color: transparent; -webkit-text-stroke: 1.5px var(--white); }
+  .mast-right { opacity: 0; animation: fadeUp .7s .3s both; }
   .mast-desc {
     font-size: 14px; line-height: 1.75; color: var(--muted);
-    border-left: 2px solid var(--border2);
-    padding-left: 18px;
-    margin-bottom: 20px;
+    border-left: 2px solid var(--border2); padding-left: 18px; margin-bottom: 20px;
   }
-
   .chips { display: flex; gap: 7px; flex-wrap: wrap; }
   .chip {
     font-family: var(--mono); font-size: 10.5px;
@@ -199,66 +145,36 @@
   }
   .chip:hover { border-color: var(--white); color: var(--white); }
 
-  /* ══════════════════════════════════════════
-     STATS BAR
-  ══════════════════════════════════════════ */
   .stats {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
+    display: grid; grid-template-columns: repeat(4,1fr);
     border-bottom: 1px solid var(--border);
     opacity: 0; animation: fadeUp .6s .42s both;
   }
   .s-item {
-    padding: 24px 0;
-    border-right: 1px solid var(--border);
+    padding: 24px 0; border-right: 1px solid var(--border);
     position: relative; overflow: hidden;
   }
   .s-item:last-child { border-right: none; }
   .s-item::after {
-    content: ''; position: absolute;
-    bottom: 0; left: 0; width: 0; height: 2px;
-    background: var(--white);
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--white);
     transition: width .4s cubic-bezier(.22,1,.36,1);
   }
   .s-item:hover::after { width: 100%; }
-
-  .s-num {
-    font-family: var(--serif);
-    font-size: 42px; line-height: 1;
-    color: var(--white); letter-spacing: -1.5px;
-  }
+  .s-num { font-family: var(--serif); font-size: 42px; line-height: 1; color: var(--white); letter-spacing: -1.5px; }
   .s-num small { font-size: 20px; font-family: var(--mono); letter-spacing: 0; }
-  .s-lbl {
-    font-family: var(--mono); font-size: 10px; color: var(--muted2);
-    letter-spacing: 1.5px; text-transform: uppercase; margin-top: 5px;
-  }
+  .s-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 5px; }
 
-  /* ══════════════════════════════════════════
-     SECTION HEADER
-  ══════════════════════════════════════════ */
   .sec-head {
-    display: flex; align-items: baseline;
-    justify-content: space-between;
-    padding: 36px 0 22px;
+    display: flex; align-items: baseline; justify-content: space-between; padding: 36px 0 22px;
   }
-  .sec-title {
-    font-family: var(--serif); font-size: clamp(20px,2.5vw,26px);
-    font-weight: 400; letter-spacing: -.5px; color: var(--white);
-  }
-  .sec-count {
-    font-family: var(--mono); font-size: 11px; color: var(--muted2); letter-spacing: 1px;
-  }
+  .sec-title { font-family: var(--serif); font-size: clamp(20px,2.5vw,26px); font-weight: 400; letter-spacing: -.5px; color: var(--white); }
+  .sec-count { font-family: var(--mono); font-size: 11px; color: var(--muted2); letter-spacing: 1px; }
 
-  /* ══════════════════════════════════════════
-     FEATURED CARD
-  ══════════════════════════════════════════ */
   .feat-card {
-    display: grid;
-    grid-template-columns: 1.45fr 1fr;
-    border: 1px solid var(--border);
-    border-radius: 14px; overflow: hidden;
-    background: var(--bg2);
-    transition: border-color .3s, box-shadow .3s;
+    display: grid; grid-template-columns: 1.45fr 1fr;
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    background: var(--bg2); transition: border-color .3s, box-shadow .3s;
     text-decoration: none; color: inherit;
     opacity: 0; animation: fadeUp .7s .55s both;
   }
@@ -267,29 +183,22 @@
     box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
   }
 
-  /* Thumbnail */
-  .ft {
-    position: relative; aspect-ratio: 16/9; overflow: hidden; background: #111;
-  }
+  .ft { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #111; }
   .ft img {
     width:100%; height:100%; object-fit:cover;
     transition: transform .6s cubic-bezier(.22,1,.36,1), filter .4s;
   }
   .feat-card:hover .ft img { transform: scale(1.05); filter: brightness(.75); }
-
   .ft-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(to bottom, transparent 30%, rgba(8,8,8,.65) 100%);
   }
-
   .ft-badge {
     position: absolute; top: 14px; left: 14px; z-index: 2;
     font-family: var(--mono); font-size: 10px;
     background: var(--red); color: #fff;
     padding: 4px 10px; border-radius: 4px; letter-spacing: 1px;
   }
-
-  /* Play */
   .ft-play {
     position: absolute; inset: 0; z-index: 2;
     display: flex; align-items: center; justify-content: center;
@@ -298,225 +207,95 @@
     width: 68px; height: 68px; border-radius: 50%;
     border: 1.5px solid rgba(255,255,255,.5);
     display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(6px);
-    background: rgba(255,255,255,.08);
-    transition: all .3s;
-    box-shadow: 0 0 0 0 rgba(255,255,255,.15);
+    backdrop-filter: blur(6px); background: rgba(255,255,255,.08);
+    transition: all .3s; box-shadow: 0 0 0 0 rgba(255,255,255,.15);
   }
   .feat-card:hover .play-ring {
-    background: rgba(255,255,255,.18);
-    border-color: #fff;
-    box-shadow: 0 0 0 10px rgba(255,255,255,.04);
-    transform: scale(1.08);
+    background: rgba(255,255,255,.18); border-color: #fff;
+    box-shadow: 0 0 0 10px rgba(255,255,255,.04); transform: scale(1.08);
   }
   .play-ring svg { margin-left: 5px; }
 
-  /* Info */
   .fi {
-    padding: clamp(24px,3vw,40px);
-    display: flex; flex-direction: column;
+    padding: clamp(24px,3vw,40px); display: flex; flex-direction: column;
     border-left: 1px solid var(--border);
   }
-  .fi-kicker {
-    font-family: var(--mono); font-size: 10px;
-    color: var(--muted2); letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-  .fi-title {
-    font-family: var(--serif);
-    font-size: clamp(19px,2.2vw,26px);
-    line-height: 1.15; letter-spacing: -.4px; color: var(--white);
-    margin-bottom: 14px;
-  }
-  .fi-desc {
-    font-size: 13.5px; line-height: 1.72; color: var(--muted);
-    margin-bottom: 22px; flex: 1;
-  }
+  .fi-kicker { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .fi-title { font-family: var(--serif); font-size: clamp(19px,2.2vw,26px); line-height: 1.15; letter-spacing: -.4px; color: var(--white); margin-bottom: 14px; }
+  .fi-desc { font-size: 13.5px; line-height: 1.72; color: var(--muted); margin-bottom: 22px; flex: 1; }
   .fi-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
   .fi-tag {
     font-family: var(--mono); font-size: 10px;
     padding: 3px 9px; border-radius: 3px;
-    border: 1px solid var(--border2); color: var(--muted);
-    transition: all .15s;
+    border: 1px solid var(--border2); color: var(--muted); transition: all .15s;
   }
   .fi-tag:hover { border-color: var(--white); color: var(--white); }
-
   .fi-meta {
     display: flex; gap: 18px; flex-wrap: wrap;
     padding: 16px 0; border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border); margin-bottom: 22px;
   }
-  .fi-meta-i {
-    display: flex; align-items: center; gap: 6px;
-    font-family: var(--mono); font-size: 11px; color: var(--muted2);
-  }
-
+  .fi-meta-i { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted2); }
   .btn-watch {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 22px;
+    display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px;
     background: var(--white); color: #000;
     font-family: var(--sans); font-size: 13.5px; font-weight: 600;
     border-radius: 8px; border: none; align-self: flex-start;
     transition: background .2s, transform .2s, box-shadow .2s;
     position: relative; overflow: hidden;
   }
-  .btn-watch::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,.07));
-  }
-  .btn-watch:hover {
-    background: #d0d0d0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.4);
-  }
+  .btn-watch::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,.07)); }
+  .btn-watch:hover { background: #d0d0d0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
 
-  /* no result */
-  .no-res {
-    display: none; padding: 72px 24px; text-align: center;
-    border: 1px dashed var(--border); border-radius: 12px;
-    background: var(--bg2);
-  }
+  .no-res { display: none; padding: 72px 24px; text-align: center; border: 1px dashed var(--border); border-radius: 12px; background: var(--bg2); }
   .no-res.show { display: block; }
   .no-res p { font-family: var(--mono); font-size: 13px; color: var(--muted2); }
 
-  /* ══════════════════════════════════════════
-     COMING SOON GRID
-  ══════════════════════════════════════════ */
   .coming-grid {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden;
-    margin-bottom: 56px;
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 56px;
   }
-
-  .ci {
-    background: var(--bg2);
-    padding: 28px 24px;
-    position: relative; overflow: hidden;
-    transition: background .25s;
-  }
+  .ci { background: var(--bg2); padding: 28px 24px; position: relative; overflow: hidden; transition: background .25s; }
   .ci::before {
-    content: '';
-    position: absolute; bottom: 0; left: 0;
-    width: 100%; height: 2px;
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
     background: linear-gradient(90deg, var(--red), transparent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .35s cubic-bezier(.22,1,.36,1);
+    transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.22,1,.36,1);
   }
   .ci:hover { background: var(--bg3); }
   .ci:hover::before { transform: scaleX(1); }
-
-  .ci-n {
-    position: absolute; top: 18px; right: 20px;
-    font-family: var(--serif); font-size: 52px; line-height: 1;
-    color: rgba(255,255,255,.04); letter-spacing: -2px;
-  }
-  .ci-icon {
-    width: 38px; height: 38px; border-radius: 8px;
-    border: 1px solid var(--border2); background: var(--bg3);
-    display: grid; place-items: center; margin-bottom: 16px;
-    transition: border-color .2s, background .2s;
-  }
+  .ci-n { position: absolute; top: 18px; right: 20px; font-family: var(--serif); font-size: 52px; line-height: 1; color: rgba(255,255,255,.04); letter-spacing: -2px; }
+  .ci-icon { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg3); display: grid; place-items: center; margin-bottom: 16px; transition: border-color .2s, background .2s; }
   .ci:hover .ci-icon { border-color: var(--border2); background: var(--bg4); }
+  .ci-title { font-family: var(--sans); font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 7px; line-height: 1.3; }
+  .ci-desc { font-size: 12.5px; line-height: 1.62; color: var(--muted2); }
+  .ci-badge { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 9.5px; padding: 3px 8px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted2); letter-spacing: 1px; text-transform: uppercase; }
 
-  .ci-title {
-    font-family: var(--sans); font-weight: 600; font-size: 14px;
-    color: var(--white); margin-bottom: 7px; line-height: 1.3;
-  }
-  .ci-desc {
-    font-size: 12.5px; line-height: 1.62; color: var(--muted2);
-  }
-  .ci-badge {
-    display: inline-block; margin-top: 16px;
-    font-family: var(--mono); font-size: 9.5px;
-    padding: 3px 8px; border-radius: 3px;
-    border: 1px solid var(--border); color: var(--muted2);
-    letter-spacing: 1px; text-transform: uppercase;
-  }
-
-  /* ══════════════════════════════════════════
-     PROGRESS
-  ══════════════════════════════════════════ */
-  .prog-section {
-    border-top: 1px solid var(--border);
-    padding: 40px 0 56px;
-    display: flex; gap: 40px; align-items: center; flex-wrap: wrap;
-  }
+  .prog-section { border-top: 1px solid var(--border); padding: 40px 0 56px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
   .prog-left { flex-shrink: 0; }
-  .prog-label {
-    font-family: var(--mono); font-size: 10px;
-    color: var(--muted2); letter-spacing: 2px; text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-  .prog-val {
-    font-family: var(--serif); font-size: 44px;
-    color: var(--white); letter-spacing: -1.5px; line-height: 1;
-  }
+  .prog-label { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .prog-val { font-family: var(--serif); font-size: 44px; color: var(--white); letter-spacing: -1.5px; line-height: 1; }
   .prog-val small { font-family: var(--mono); font-size: 20px; }
-
   .prog-right { flex: 1; min-width: 200px; }
-  .prog-bar {
-    height: 4px; border-radius: 2px;
-    background: var(--bg4); overflow: hidden; margin-bottom: 14px;
-  }
-  .prog-fill {
-    height: 100%; width: 0;
-    background: var(--white); border-radius: 2px;
-    transition: width 1.4s cubic-bezier(.22,1,.36,1);
-  }
+  .prog-bar { height: 4px; border-radius: 2px; background: var(--bg4); overflow: hidden; margin-bottom: 14px; }
+  .prog-fill { height: 100%; width: 0; background: var(--white); border-radius: 2px; transition: width 1.4s cubic-bezier(.22,1,.36,1); }
   .prog-steps { display: flex; gap: 6px; flex-wrap: wrap; }
-  .p-step {
-    font-family: var(--mono); font-size: 10px;
-    padding: 3px 9px; border-radius: 3px;
-    border: 1px solid var(--border); color: var(--muted2);
-  }
-  .p-step.done {
-    background: var(--white); border-color: var(--white); color: #000;
-    font-weight: 500;
-  }
+  .p-step { font-family: var(--mono); font-size: 10px; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted2); }
+  .p-step.done { background: var(--white); border-color: var(--white); color: #000; font-weight: 500; }
 
-  /* ══════════════════════════════════════════
-     FOOTER
-  ══════════════════════════════════════════ */
-  footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-  }
-  .foot-inner {
-    max-width: 1200px; margin: 0 auto;
-    padding: 24px clamp(20px,4vw,48px);
-    display: flex; align-items: center;
-    justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  }
-  .foot-logo {
-    font-family: var(--sans); font-weight: 600; font-size: 13.5px;
-    color: var(--muted);
-  }
+  footer { position: relative; z-index: 1; border-top: 1px solid var(--border); }
+  .foot-inner { max-width: 1200px; margin: 0 auto; padding: 24px clamp(20px,4vw,48px); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .foot-logo { font-family: var(--sans); font-weight: 600; font-size: 13.5px; color: var(--muted); }
   .foot-logo em { font-style: normal; color: var(--red2); }
   .foot-center { font-family: var(--mono); font-size: 10.5px; color: var(--muted2); }
   .foot-right  { font-family: var(--mono); font-size: 10.5px; color: var(--muted2); }
 
-  /* ══════════════════════════════════════════
-     SCROLL ANIMATIONS
-  ══════════════════════════════════════════ */
   @keyframes fadeUp {
     from { opacity:0; transform: translateY(28px); }
     to   { opacity:1; transform: translateY(0); }
   }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1);
-  }
-  .reveal.visible {
-    opacity: 1; transform: translateY(0);
-  }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: .08s; }
   .reveal-delay-2 { transition-delay: .16s; }
   .reveal-delay-3 { transition-delay: .24s; }
@@ -524,21 +303,8 @@
   .reveal-delay-5 { transition-delay: .40s; }
   .reveal-delay-6 { transition-delay: .48s; }
 
-  /* ══════════════════════════════════════════
-     CURSOR TRAIL (desktop only)
-  ══════════════════════════════════════════ */
-  .cursor {
-    position: fixed; z-index: 9999;
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--white);
-    pointer-events: none; mix-blend-mode: difference;
-    transform: translate(-50%,-50%);
-    transition: transform .05s, width .2s, height .2s;
-  }
+  .cursor { position: fixed; z-index: 9999; width: 10px; height: 10px; border-radius: 50%; background: var(--white); pointer-events: none; mix-blend-mode: difference; transform: translate(-50%,-50%); transition: transform .05s, width .2s, height .2s; }
 
-  /* ══════════════════════════════════════════
-     RESPONSIVE
-  ══════════════════════════════════════════ */
   @media (max-width: 900px) {
     .feat-card { grid-template-columns: 1fr; }
     .fi { border-left: none; border-top: 1px solid var(--border); }
@@ -555,7 +321,6 @@
     .prog-section { flex-direction: column; align-items: flex-start; }
   }
   @media (max-width: 440px) {
-    .masthead-title { letter-spacing: -1.5px; }
     .btn-watch { width: 100%; justify-content: center; }
     .fi { padding: 20px 18px; }
   }
@@ -563,20 +328,15 @@
 </head>
 <body>
 
-<!-- ── Cursor dot ── -->
 <div class="cursor" id="cursor"></div>
-
-<!-- ── Background canvas ── -->
 <canvas id="bg-canvas"></canvas>
 
-<!-- ════════ HEADER ════════ -->
 <header>
   <div class="nav">
     <a href="#" class="logo">
       <div class="logo-sq">NET</div>
       <span class="logo-text">CCNA<em>Lab</em></span>
     </a>
-
     <div class="nav-center">
       <div class="search-wrap">
         <input type="text" id="searchInput" placeholder="Rechercher — OSI, VLAN, OSPF…" autocomplete="off"/>
@@ -585,7 +345,6 @@
         </svg>
       </div>
     </div>
-
     <div class="nav-right">
       <span class="nav-pill" id="navCount">1 ressource</span>
       <div class="live-dot"></div>
@@ -593,16 +352,12 @@
   </div>
 </header>
 
-<!-- ════════ PAGE ════════ -->
 <div class="page">
 
-  <!-- MASTHEAD -->
   <div class="masthead">
     <div class="mast-left">
       <div class="mast-kicker">Documentation CCNA</div>
-      <h1 class="mast-title">
-        Apprendre<br>le <em>réseau</em>
-      </h1>
+      <h1 class="mast-title">Apprendre<br>le <em>réseau</em></h1>
     </div>
     <div class="mast-right">
       <p class="mast-desc">
@@ -622,27 +377,13 @@
     </div>
   </div>
 
-  <!-- STATS -->
   <div class="stats reveal">
-    <div class="s-item">
-      <div class="s-num">1</div>
-      <div class="s-lbl">Vidéo publiée</div>
-    </div>
-    <div class="s-item">
-      <div class="s-num">0</div>
-      <div class="s-lbl">Labs Packet Tracer</div>
-    </div>
-    <div class="s-item">
-      <div class="s-num"><small>CCNA</small></div>
-      <div class="s-lbl">Objectif certification</div>
-    </div>
-    <div class="s-item">
-      <div class="s-num">14<small>%</small></div>
-      <div class="s-lbl">Progression estimée</div>
-    </div>
+    <div class="s-item"><div class="s-num">1</div><div class="s-lbl">Vidéo publiée</div></div>
+    <div class="s-item"><div class="s-num">0</div><div class="s-lbl">Labs Packet Tracer</div></div>
+    <div class="s-item"><div class="s-num"><small>CCNA</small></div><div class="s-lbl">Objectif certification</div></div>
+    <div class="s-item"><div class="s-num">14<small>%</small></div><div class="s-lbl">Progression estimée</div></div>
   </div>
 
-  <!-- FEATURED VIDEO -->
   <div>
     <div class="sec-head reveal reveal-delay-1">
       <h2 class="sec-title">Vidéo — En vedette</h2>
@@ -650,21 +391,16 @@
     </div>
 
     <a class="feat-card" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener" id="featCard">
-      <!-- Thumb -->
       <div class="ft">
-        <img src="thumbnail-osi.png" alt="Modèle OSI — Les 7 couches expliquées"/>
+        <img src="thumb.png" alt="Modèle OSI — Les 7 couches expliquées"/>
         <div class="ft-overlay"></div>
         <span class="ft-badge">▶ VIDÉO</span>
         <div class="ft-play">
           <div class="play-ring">
-            <svg width="22" height="22" viewBox="0 0 24 24">
-              <polygon points="5,3 19,12 5,21" fill="#fff"/>
-            </svg>
+            <svg width="22" height="22" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>
           </div>
         </div>
       </div>
-
-      <!-- Info -->
       <div class="fi">
         <div class="fi-kicker">Fondamentaux réseau · Avril 2026</div>
         <h3 class="fi-title">Modèle OSI —<br>Les 7 couches expliquées</h3>
@@ -702,69 +438,53 @@
       </div>
     </a>
 
-    <div class="no-res" id="noRes">
-      <p>Aucun résultat pour cette recherche.</p>
-    </div>
+    <div class="no-res" id="noRes"><p>Aucun résultat pour cette recherche.</p></div>
   </div>
 
-  <!-- COMING SOON -->
   <div>
     <div class="sec-head reveal reveal-delay-1">
       <h2 class="sec-title">Prochainement</h2>
       <span class="sec-count">En préparation</span>
     </div>
-
     <div class="coming-grid">
       <div class="ci reveal reveal-delay-1">
         <div class="ci-n">01</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="ci-title">VLAN & Trunking 802.1Q</div>
         <div class="ci-desc">VLANs sur switches Cisco, ports trunk/access et routage inter-VLAN.</div>
         <span class="ci-badge">Packet Tracer</span>
       </div>
       <div class="ci reveal reveal-delay-2">
         <div class="ci-n">02</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <div class="ci-title">OSPF — Routage Dynamique</div>
         <div class="ci-desc">Protocole OSPF, areas, LSA et convergence sur IOS Cisco.</div>
         <span class="ci-badge">Vidéo + Lab</span>
       </div>
       <div class="ci reveal reveal-delay-3">
         <div class="ci-n">03</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div class="ci-title">ACL Standard & Étendue</div>
         <div class="ci-desc">Filtrage du trafic réseau avec les Access Control Lists.</div>
         <span class="ci-badge">Packet Tracer</span>
       </div>
       <div class="ci reveal reveal-delay-4">
         <div class="ci-n">04</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="17,1 21,5 17,9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="17,1 21,5 17,9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
         <div class="ci-title">NAT / PAT</div>
         <div class="ci-desc">Translation d'adresses statique, dynamique et overload.</div>
         <span class="ci-badge">Packet Tracer</span>
       </div>
       <div class="ci reveal reveal-delay-5">
         <div class="ci-n">05</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
         <div class="ci-title">STP — Spanning Tree</div>
         <div class="ci-desc">Prévention des boucles, Root Bridge et états des ports STP.</div>
         <span class="ci-badge">Packet Tracer</span>
       </div>
       <div class="ci reveal reveal-delay-6">
         <div class="ci-n">06</div>
-        <div class="ci-icon">
-          <svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="3"/></svg>
-        </div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="3"/></svg></div>
         <div class="ci-title">IPv6 & Adressage</div>
         <div class="ci-desc">Structure IPv6, SLAAC, NDP et migration depuis IPv4.</div>
         <span class="ci-badge">Théorie</span>
@@ -772,16 +492,13 @@
     </div>
   </div>
 
-  <!-- PROGRESS -->
   <div class="prog-section reveal">
     <div class="prog-left">
       <div class="prog-label">Progression CCNA</div>
       <div class="prog-val">14<small>%</small></div>
     </div>
     <div class="prog-right">
-      <div class="prog-bar">
-        <div class="prog-fill" id="progFill"></div>
-      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
       <div class="prog-steps">
         <span class="p-step done">Modèle OSI</span>
         <span class="p-step">VLAN</span>
@@ -795,9 +512,8 @@
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
-<!-- ════════ FOOTER ════════ -->
 <footer>
   <div class="foot-inner">
     <div class="foot-logo">CCNA<em>Lab</em> — Sedagbe</div>
@@ -807,59 +523,50 @@
 </footer>
 
 <script>
-/* ── CURSOR ── */
 const cursor = document.getElementById('cursor');
-let mx = -100, my = -100;
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top  = my + 'px';
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
 });
 document.querySelectorAll('a, button, input, .chip, .fi-tag').forEach(el => {
   el.addEventListener('mouseenter', () => { cursor.style.width='28px'; cursor.style.height='28px'; });
   el.addEventListener('mouseleave', () => { cursor.style.width='10px'; cursor.style.height='10px'; });
 });
 
-/* ── BACKGROUND CANVAS: flowing lines ── */
 const canvas = document.getElementById('bg-canvas');
 const ctx    = canvas.getContext('2d');
-let W, H, lines = [];
+let W, H;
 
-function resize() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
 
 class Line {
   constructor() { this.reset(true); }
   reset(init = false) {
-    this.x  = Math.random() * W;
-    this.y  = init ? Math.random() * H : (Math.random() > .5 ? -20 : H + 20);
-    this.vy = (Math.random() * .4 + .15) * (this.y < 0 ? 1 : -1);
-    this.vx = (Math.random() - .5) * .15;
+    this.x   = Math.random() * W;
+    this.y   = init ? Math.random() * H : (Math.random() > .5 ? -20 : H + 20);
+    this.vy  = (Math.random() * .4 + .15) * (this.y < 0 ? 1 : -1);
+    this.vx  = (Math.random() - .5) * .15;
     this.len = Math.random() * 80 + 40;
-    this.a  = Math.random() * .18 + .04;
-    this.w  = Math.random() * .6 + .2;
+    this.a   = Math.random() * .18 + .04;
+    this.w   = Math.random() * .6 + .2;
   }
   draw() {
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
     ctx.lineTo(this.x + this.vx * this.len / this.vy, this.y + this.len);
     ctx.strokeStyle = `rgba(255,255,255,${this.a})`;
-    ctx.lineWidth   = this.w;
+    ctx.lineWidth = this.w;
     ctx.stroke();
   }
   update() {
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.vx; this.y += this.vy;
     if (this.y > H + 30 || this.y < -30) this.reset();
   }
 }
 
-for (let i = 0; i < 55; i++) lines.push(new Line());
-
+const lines = Array.from({length: 55}, () => new Line());
 function animate() {
   ctx.clearRect(0, 0, W, H);
   lines.forEach(l => { l.update(); l.draw(); });
@@ -867,41 +574,24 @@ function animate() {
 }
 animate();
 
-/* ── SCROLL REVEAL ── */
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      io.unobserve(e.target);
-    }
-  });
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
 }, { threshold: 0.1 });
-reveals.forEach(r => io.observe(r));
+document.querySelectorAll('.reveal').forEach(r => io.observe(r));
 
-/* ── PROGRESS BAR ── */
 const progFill = document.getElementById('progFill');
 const progIO = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { progFill.style.width = '14%'; progIO.unobserve(e.target); }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { progFill.style.width = '14%'; progIO.unobserve(e.target); } });
 }, { threshold: .3 });
 progIO.observe(progFill);
 
-/* ── SEARCH ── */
 const input    = document.getElementById('searchInput');
 const featCard = document.getElementById('featCard');
 const noRes    = document.getElementById('noRes');
 const navCount = document.getElementById('navCount');
 const secCount = document.getElementById('secCount');
 
-const KW = [
-  'osi','couche','layer','application','présentation','presentation',
-  'session','transport','réseau','reseau','liaison','physique',
-  'encapsulation','modèle','modele','model','tcp','ip','protocole',
-  'protocol','ccna','fondamentaux','network','open','systems',
-  'interconnection','7','sept','couches'
-];
+const KW = ['osi','couche','layer','application','présentation','presentation','session','transport','réseau','reseau','liaison','physique','encapsulation','modèle','modele','model','tcp','ip','protocole','protocol','ccna','fondamentaux','network','open','systems','interconnection','7','sept','couches'];
 
 input.addEventListener('input', () => {
   const q = input.value.trim().toLowerCase();
@@ -919,7 +609,6 @@ input.addEventListener('input', () => {
   secCount.textContent = match ? '1 résultat' : '0 résultat';
 });
 
-/* Shortcut / */
 document.addEventListener('keydown', e => {
   if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
 });
