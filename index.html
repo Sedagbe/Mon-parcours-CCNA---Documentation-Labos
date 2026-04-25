@@ -32,6 +32,8 @@
     --muted2:  #555;
     --red:     #e63c2f;
     --red2:    #ff6b5b;
+    --orange:  #f97316;
+    --orange2: #fb923c;
     --serif:   'Instrument Serif', serif;
     --sans:    'Geist', sans-serif;
     --mono:    'Geist Mono', monospace;
@@ -112,6 +114,7 @@
     padding: 0 clamp(20px,4vw,48px);
   }
 
+  /* ── MASTHEAD ── */
   .masthead {
     padding: clamp(56px,8vw,100px) 0 clamp(40px,5vw,60px);
     display: grid; grid-template-columns: 1fr 1fr;
@@ -145,6 +148,7 @@
   }
   .chip:hover { border-color: var(--white); color: var(--white); }
 
+  /* ── STATS ── */
   .stats {
     display: grid; grid-template-columns: repeat(4,1fr);
     border-bottom: 1px solid var(--border);
@@ -165,12 +169,17 @@
   .s-num small { font-size: 20px; font-family: var(--mono); letter-spacing: 0; }
   .s-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 5px; }
 
+  /* ── SECTION HEAD ── */
   .sec-head {
     display: flex; align-items: baseline; justify-content: space-between; padding: 36px 0 22px;
   }
   .sec-title { font-family: var(--serif); font-size: clamp(20px,2.5vw,26px); font-weight: 400; letter-spacing: -.5px; color: var(--white); }
   .sec-count { font-family: var(--mono); font-size: 11px; color: var(--muted2); letter-spacing: 1px; }
 
+  /* ── RESOURCES LIST ── */
+  .resources { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ── FEATURED CARD (video) ── */
   .feat-card {
     display: grid; grid-template-columns: 1.45fr 1fr;
     border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
@@ -195,10 +204,11 @@
   }
   .ft-badge {
     position: absolute; top: 14px; left: 14px; z-index: 2;
-    font-family: var(--mono); font-size: 10px;
-    background: var(--red); color: #fff;
+    font-family: var(--mono); font-size: 10px; color: #fff;
     padding: 4px 10px; border-radius: 4px; letter-spacing: 1px;
   }
+  .ft-badge.video  { background: var(--red); }
+  .ft-badge.lab    { background: var(--orange); }
   .ft-play {
     position: absolute; inset: 0; z-index: 2;
     display: flex; align-items: center; justify-content: center;
@@ -208,7 +218,7 @@
     border: 1.5px solid rgba(255,255,255,.5);
     display: flex; align-items: center; justify-content: center;
     backdrop-filter: blur(6px); background: rgba(255,255,255,.08);
-    transition: all .3s; box-shadow: 0 0 0 0 rgba(255,255,255,.15);
+    transition: all .3s;
   }
   .feat-card:hover .play-ring {
     background: rgba(255,255,255,.18); border-color: #fff;
@@ -216,6 +226,38 @@
   }
   .play-ring svg { margin-left: 5px; }
 
+  /* ── LAB CARD ── */
+  .lab-card {
+    display: grid; grid-template-columns: 1.45fr 1fr;
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    background: var(--bg2); transition: border-color .3s, box-shadow .3s;
+    text-decoration: none; color: inherit;
+    opacity: 0; animation: fadeUp .7s .65s both;
+  }
+  .lab-card:hover {
+    border-color: rgba(249,115,22,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(249,115,22,.08);
+  }
+  .lab-card .ft-badge.lab { background: var(--orange); }
+
+  /* ── PKT download icon ── */
+  .pkt-icon {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pkt-ring {
+    width: 68px; height: 68px; border-radius: 50%;
+    border: 1.5px solid rgba(249,115,22,.5);
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px); background: rgba(249,115,22,.08);
+    transition: all .3s;
+  }
+  .lab-card:hover .pkt-ring {
+    background: rgba(249,115,22,.22); border-color: var(--orange);
+    box-shadow: 0 0 0 10px rgba(249,115,22,.04); transform: scale(1.08);
+  }
+
+  /* ── CARD INFO PANEL ── */
   .fi {
     padding: clamp(24px,3vw,40px); display: flex; flex-direction: column;
     border-left: 1px solid var(--border);
@@ -236,6 +278,7 @@
     border-bottom: 1px solid var(--border); margin-bottom: 22px;
   }
   .fi-meta-i { display: flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--muted2); }
+
   .btn-watch {
     display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px;
     background: var(--white); color: #000;
@@ -247,10 +290,35 @@
   .btn-watch::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,.07)); }
   .btn-watch:hover { background: #d0d0d0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
 
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px;
+    background: var(--orange); color: #000;
+    font-family: var(--sans); font-size: 13.5px; font-weight: 600;
+    border-radius: 8px; border: none; align-self: flex-start;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-download:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,.3); }
+
+  /* ── TOPO PREVIEW in lab card ── */
+  .topo-preview {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: #0c0c0c;
+    position: relative;
+  }
+  .topo-preview img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .6s cubic-bezier(.22,1,.36,1), filter .4s;
+  }
+  .lab-card:hover .topo-preview img { transform: scale(1.04); filter: brightness(.7); }
+
+  /* ── NO RESULT ── */
   .no-res { display: none; padding: 72px 24px; text-align: center; border: 1px dashed var(--border); border-radius: 12px; background: var(--bg2); }
   .no-res.show { display: block; }
   .no-res p { font-family: var(--mono); font-size: 13px; color: var(--muted2); }
 
+  /* ── COMING SOON ── */
   .coming-grid {
     display: grid; grid-template-columns: repeat(3,1fr);
     gap: 1px; background: var(--border);
@@ -266,11 +334,12 @@
   .ci:hover::before { transform: scaleX(1); }
   .ci-n { position: absolute; top: 18px; right: 20px; font-family: var(--serif); font-size: 52px; line-height: 1; color: rgba(255,255,255,.04); letter-spacing: -2px; }
   .ci-icon { width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border2); background: var(--bg3); display: grid; place-items: center; margin-bottom: 16px; transition: border-color .2s, background .2s; }
-  .ci:hover .ci-icon { border-color: var(--border2); background: var(--bg4); }
+  .ci:hover .ci-icon { background: var(--bg4); }
   .ci-title { font-family: var(--sans); font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 7px; line-height: 1.3; }
   .ci-desc { font-size: 12.5px; line-height: 1.62; color: var(--muted2); }
   .ci-badge { display: inline-block; margin-top: 16px; font-family: var(--mono); font-size: 9.5px; padding: 3px 8px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted2); letter-spacing: 1px; text-transform: uppercase; }
 
+  /* ── PROGRESS ── */
   .prog-section { border-top: 1px solid var(--border); padding: 40px 0 56px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
   .prog-left { flex-shrink: 0; }
   .prog-label { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
@@ -283,6 +352,7 @@
   .p-step { font-family: var(--mono); font-size: 10px; padding: 3px 9px; border-radius: 3px; border: 1px solid var(--border); color: var(--muted2); }
   .p-step.done { background: var(--white); border-color: var(--white); color: #000; font-weight: 500; }
 
+  /* ── FOOTER ── */
   footer { position: relative; z-index: 1; border-top: 1px solid var(--border); }
   .foot-inner { max-width: 1200px; margin: 0 auto; padding: 24px clamp(20px,4vw,48px); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
   .foot-logo { font-family: var(--sans); font-weight: 600; font-size: 13.5px; color: var(--muted); }
@@ -290,6 +360,7 @@
   .foot-center { font-family: var(--mono); font-size: 10.5px; color: var(--muted2); }
   .foot-right  { font-family: var(--mono); font-size: 10.5px; color: var(--muted2); }
 
+  /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity:0; transform: translateY(28px); }
     to   { opacity:1; transform: translateY(0); }
@@ -303,10 +374,12 @@
   .reveal-delay-5 { transition-delay: .40s; }
   .reveal-delay-6 { transition-delay: .48s; }
 
+  /* ── CURSOR ── */
   .cursor { position: fixed; z-index: 9999; width: 10px; height: 10px; border-radius: 50%; background: var(--white); pointer-events: none; mix-blend-mode: difference; transform: translate(-50%,-50%); transition: transform .05s, width .2s, height .2s; }
 
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .feat-card { grid-template-columns: 1fr; }
+    .feat-card, .lab-card { grid-template-columns: 1fr; }
     .fi { border-left: none; border-top: 1px solid var(--border); }
     .coming-grid { grid-template-columns: 1fr 1fr; }
     .masthead { grid-template-columns: 1fr; gap: 32px; }
@@ -321,7 +394,7 @@
     .prog-section { flex-direction: column; align-items: flex-start; }
   }
   @media (max-width: 440px) {
-    .btn-watch { width: 100%; justify-content: center; }
+    .btn-watch, .btn-download { width: 100%; justify-content: center; }
     .fi { padding: 20px 18px; }
   }
   </style>
@@ -331,6 +404,7 @@
 <div class="cursor" id="cursor"></div>
 <canvas id="bg-canvas"></canvas>
 
+<!-- ════════ HEADER ════════ -->
 <header>
   <div class="nav">
     <a href="#" class="logo">
@@ -339,21 +413,23 @@
     </a>
     <div class="nav-center">
       <div class="search-wrap">
-        <input type="text" id="searchInput" placeholder="Rechercher — OSI, VLAN, OSPF…" autocomplete="off"/>
+        <input type="text" id="searchInput" placeholder="Rechercher — OSI, routage, VLAN…" autocomplete="off"/>
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </div>
     </div>
     <div class="nav-right">
-      <span class="nav-pill" id="navCount">1 ressource</span>
+      <span class="nav-pill" id="navCount">2 ressources</span>
       <div class="live-dot"></div>
     </div>
   </div>
 </header>
 
+<!-- ════════ PAGE ════════ -->
 <div class="page">
 
+  <!-- MASTHEAD -->
   <div class="masthead">
     <div class="mast-left">
       <div class="mast-kicker">Documentation CCNA</div>
@@ -367,80 +443,148 @@
       <div class="chips">
         <span class="chip">Modèle OSI</span>
         <span class="chip">TCP/IP</span>
+        <span class="chip">Routage</span>
         <span class="chip">VLAN</span>
         <span class="chip">OSPF</span>
         <span class="chip">ACL</span>
         <span class="chip">NAT</span>
         <span class="chip">STP</span>
-        <span class="chip">DHCP</span>
       </div>
     </div>
   </div>
 
+  <!-- STATS -->
   <div class="stats reveal">
     <div class="s-item"><div class="s-num">1</div><div class="s-lbl">Vidéo publiée</div></div>
-    <div class="s-item"><div class="s-num">0</div><div class="s-lbl">Labs Packet Tracer</div></div>
+    <div class="s-item"><div class="s-num">1</div><div class="s-lbl">Lab Packet Tracer</div></div>
     <div class="s-item"><div class="s-num"><small>CCNA</small></div><div class="s-lbl">Objectif certification</div></div>
-    <div class="s-item"><div class="s-num">14<small>%</small></div><div class="s-lbl">Progression estimée</div></div>
+    <div class="s-item"><div class="s-num">28<small>%</small></div><div class="s-lbl">Progression estimée</div></div>
   </div>
 
+  <!-- RESOURCES -->
   <div>
     <div class="sec-head reveal reveal-delay-1">
-      <h2 class="sec-title">Vidéo — En vedette</h2>
-      <span class="sec-count" id="secCount">1 résultat</span>
+      <h2 class="sec-title">Ressources</h2>
+      <span class="sec-count" id="secCount">2 résultats</span>
     </div>
 
-    <a class="feat-card" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener" id="featCard">
-      <div class="ft">
-        <img src="thumb.png" alt="Modèle OSI — Les 7 couches expliquées"/>
-        <div class="ft-overlay"></div>
-        <span class="ft-badge">▶ VIDÉO</span>
-        <div class="ft-play">
-          <div class="play-ring">
-            <svg width="22" height="22" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>
+    <div class="resources" id="resourceList">
+
+      <!-- ── CARD 1 : Vidéo OSI ── -->
+      <a class="feat-card resource-item" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener"
+         data-kw="osi couche layer application présentation session transport réseau liaison physique encapsulation modèle tcp ip protocole fondamentaux 7 sept couches video vidéo">
+        <div class="ft">
+          <img src="thumb.png" alt="Modèle OSI — Les 7 couches expliquées"/>
+          <div class="ft-overlay"></div>
+          <span class="ft-badge video">▶ VIDÉO</span>
+          <div class="ft-play">
+            <div class="play-ring">
+              <svg width="22" height="22" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="fi">
-        <div class="fi-kicker">Fondamentaux réseau · Avril 2026</div>
-        <h3 class="fi-title">Modèle OSI —<br>Les 7 couches expliquées</h3>
-        <p class="fi-desc">
-          Le modèle OSI est la base incontournable de tout ingénieur réseau.
-          Cette vidéo détaille chacune des 7 couches, leur rôle, les protocoles
-          associés et le principe d'encapsulation, avec des exemples concrets
-          pour la préparation au CCNA.
-        </p>
-        <div class="fi-tags">
-          <span class="fi-tag">OSI</span>
-          <span class="fi-tag">Encapsulation</span>
-          <span class="fi-tag">TCP/IP</span>
-          <span class="fi-tag">Protocoles</span>
-          <span class="fi-tag">Débutant</span>
+        <div class="fi">
+          <div class="fi-kicker">Fondamentaux réseau · Avril 2026</div>
+          <h3 class="fi-title">Modèle OSI —<br>Les 7 couches expliquées</h3>
+          <p class="fi-desc">
+            Le modèle OSI est la base incontournable de tout ingénieur réseau.
+            Cette vidéo détaille chacune des 7 couches, leur rôle, les protocoles
+            associés et le principe d'encapsulation, avec des exemples concrets
+            pour la préparation au CCNA.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">OSI</span>
+            <span class="fi-tag">Encapsulation</span>
+            <span class="fi-tag">TCP/IP</span>
+            <span class="fi-tag">Protocoles</span>
+            <span class="fi-tag">Débutant</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+              YouTube
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Niveau débutant
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Sedagbe
+            </div>
+          </div>
+          <span class="btn-watch">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            Regarder sur YouTube
+          </span>
         </div>
-        <div class="fi-meta">
-          <div class="fi-meta-i">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-            YouTube
+      </a>
+
+      <!-- ── CARD 2 : Lab Routage ── -->
+      <a class="lab-card resource-item" href="Routage___Confguration_IP.pkt" download
+         data-kw="routage route ip configuration réseau router routeur switch packet tracer lab inter-réseau tinos cyclade 192.168 adressage gateway passerelle">
+        <div class="ft">
+          <div class="topo-preview">
+            <img src="thumb-routage.png" alt="Topologie — Routage & Configuration IP"/>
           </div>
-          <div class="fi-meta-i">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-            Niveau débutant
-          </div>
-          <div class="fi-meta-i">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Sedagbe
+          <div class="ft-overlay"></div>
+          <span class="ft-badge lab">⬡ LAB .PKT</span>
+          <div class="pkt-icon">
+            <div class="pkt-ring">
+              <svg width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7,10 12,15 17,10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
           </div>
         </div>
-        <span class="btn-watch" onclick="void 0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-          Regarder sur YouTube
-        </span>
-      </div>
-    </a>
+        <div class="fi">
+          <div class="fi-kicker">Lab Packet Tracer · Avril 2026</div>
+          <h3 class="fi-title">Routage &<br>Configuration IP</h3>
+          <p class="fi-desc">
+            Deux réseaux distincts — <strong style="color:#a78bfa">Auto-école Tinos</strong> (192.168.0.x)
+            et <strong style="color:#fb923c">Cyclade</strong> (192.168.100.x) — reliés par un routeur Cisco.
+            Lab complet : adressage statique, passerelle par défaut et vérification de la connectivité inter-réseau.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">Routage statique</span>
+            <span class="fi-tag">Adressage IP</span>
+            <span class="fi-tag">Inter-réseau</span>
+            <span class="fi-tag">Cisco IOS</span>
+            <span class="fi-tag">Intermédiaire</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Packet Tracer
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Niveau intermédiaire
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Sedagbe
+            </div>
+          </div>
+          <span class="btn-download">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Télécharger le .pkt
+          </span>
+        </div>
+      </a>
+
+    </div><!-- /resources -->
 
     <div class="no-res" id="noRes"><p>Aucun résultat pour cette recherche.</p></div>
   </div>
 
+  <!-- COMING SOON -->
   <div>
     <div class="sec-head reveal reveal-delay-1">
       <h2 class="sec-title">Prochainement</h2>
@@ -492,28 +636,30 @@
     </div>
   </div>
 
+  <!-- PROGRESS -->
   <div class="prog-section reveal">
     <div class="prog-left">
       <div class="prog-label">Progression CCNA</div>
-      <div class="prog-val">14<small>%</small></div>
+      <div class="prog-val">28<small>%</small></div>
     </div>
     <div class="prog-right">
       <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
       <div class="prog-steps">
         <span class="p-step done">Modèle OSI</span>
+        <span class="p-step done">Routage IP</span>
         <span class="p-step">VLAN</span>
         <span class="p-step">OSPF</span>
         <span class="p-step">ACL</span>
         <span class="p-step">NAT</span>
         <span class="p-step">STP</span>
         <span class="p-step">IPv6</span>
-        <span class="p-step">WAN</span>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /page -->
 
+<!-- ════════ FOOTER ════════ -->
 <footer>
   <div class="foot-inner">
     <div class="foot-logo">CCNA<em>Lab</em> — Sedagbe</div>
@@ -523,6 +669,7 @@
 </footer>
 
 <script>
+/* ── CURSOR ── */
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
@@ -533,84 +680,74 @@ document.querySelectorAll('a, button, input, .chip, .fi-tag').forEach(el => {
   el.addEventListener('mouseleave', () => { cursor.style.width='10px'; cursor.style.height='10px'; });
 });
 
+/* ── BACKGROUND CANVAS ── */
 const canvas = document.getElementById('bg-canvas');
 const ctx    = canvas.getContext('2d');
 let W, H;
-
 function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-resize();
-window.addEventListener('resize', resize);
+resize(); window.addEventListener('resize', resize);
 
 class Line {
   constructor() { this.reset(true); }
-  reset(init = false) {
-    this.x   = Math.random() * W;
-    this.y   = init ? Math.random() * H : (Math.random() > .5 ? -20 : H + 20);
-    this.vy  = (Math.random() * .4 + .15) * (this.y < 0 ? 1 : -1);
-    this.vx  = (Math.random() - .5) * .15;
-    this.len = Math.random() * 80 + 40;
-    this.a   = Math.random() * .18 + .04;
-    this.w   = Math.random() * .6 + .2;
+  reset(init=false) {
+    this.x=Math.random()*W; this.y=init?Math.random()*H:(Math.random()>.5?-20:H+20);
+    this.vy=(Math.random()*.4+.15)*(this.y<0?1:-1); this.vx=(Math.random()-.5)*.15;
+    this.len=Math.random()*80+40; this.a=Math.random()*.18+.04; this.w=Math.random()*.6+.2;
   }
   draw() {
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(this.x + this.vx * this.len / this.vy, this.y + this.len);
-    ctx.strokeStyle = `rgba(255,255,255,${this.a})`;
-    ctx.lineWidth = this.w;
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(this.x,this.y);
+    ctx.lineTo(this.x+this.vx*this.len/this.vy,this.y+this.len);
+    ctx.strokeStyle=`rgba(255,255,255,${this.a})`; ctx.lineWidth=this.w; ctx.stroke();
   }
-  update() {
-    this.x += this.vx; this.y += this.vy;
-    if (this.y > H + 30 || this.y < -30) this.reset();
-  }
+  update() { this.x+=this.vx; this.y+=this.vy; if(this.y>H+30||this.y<-30)this.reset(); }
 }
-
-const lines = Array.from({length: 55}, () => new Line());
-function animate() {
-  ctx.clearRect(0, 0, W, H);
-  lines.forEach(l => { l.update(); l.draw(); });
-  requestAnimationFrame(animate);
-}
+const lines=Array.from({length:55},()=>new Line());
+function animate(){ ctx.clearRect(0,0,W,H); lines.forEach(l=>{l.update();l.draw();}); requestAnimationFrame(animate); }
 animate();
 
+/* ── SCROLL REVEAL ── */
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => io.observe(r));
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
 
+/* ── PROGRESS BAR ── */
 const progFill = document.getElementById('progFill');
 const progIO = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { progFill.style.width = '14%'; progIO.unobserve(e.target); } });
-}, { threshold: .3 });
+  entries.forEach(e => { if(e.isIntersecting){progFill.style.width='28%';progIO.unobserve(e.target);} });
+},{threshold:.3});
 progIO.observe(progFill);
 
+/* ── SEARCH ── */
 const input    = document.getElementById('searchInput');
-const featCard = document.getElementById('featCard');
 const noRes    = document.getElementById('noRes');
 const navCount = document.getElementById('navCount');
 const secCount = document.getElementById('secCount');
-
-const KW = ['osi','couche','layer','application','présentation','presentation','session','transport','réseau','reseau','liaison','physique','encapsulation','modèle','modele','model','tcp','ip','protocole','protocol','ccna','fondamentaux','network','open','systems','interconnection','7','sept','couches'];
+const items    = document.querySelectorAll('.resource-item');
 
 input.addEventListener('input', () => {
   const q = input.value.trim().toLowerCase();
   if (!q) {
-    featCard.style.display = 'grid';
+    items.forEach(i => i.style.display='');
     noRes.classList.remove('show');
-    navCount.textContent = '1 ressource';
-    secCount.textContent = '1 résultat';
+    navCount.textContent = '2 ressources';
+    secCount.textContent = '2 résultats';
     return;
   }
-  const match = KW.some(k => k.includes(q) || q.split(/\s+/).some(w => w.length > 1 && k.includes(w)));
-  featCard.style.display = match ? 'grid' : 'none';
-  noRes.classList.toggle('show', !match);
-  navCount.textContent = match ? '1 résultat' : '0 résultat';
-  secCount.textContent = match ? '1 résultat' : '0 résultat';
+  let count = 0;
+  items.forEach(item => {
+    const kw = item.dataset.kw || '';
+    const match = kw.split(' ').some(k => k.includes(q) || q.split(/\s+/).some(w=>w.length>1&&k.includes(w)));
+    item.style.display = match ? '' : 'none';
+    if(match) count++;
+  });
+  noRes.classList.toggle('show', count===0);
+  navCount.textContent = count + (count<=1?' résultat':' résultats');
+  secCount.textContent = count + (count<=1?' résultat':' résultats');
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+  if(e.key==='/'&&document.activeElement!==input){e.preventDefault();input.focus();}
 });
 </script>
 </body>
