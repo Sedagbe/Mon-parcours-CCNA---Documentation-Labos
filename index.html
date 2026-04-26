@@ -3,14 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Ressources CCNA - Vidéos pédagogiques et labs Packet Tracer pour la certification Cisco. Modèle OSI, routage IP, DHCP, DNS, serveur web et plus."/>
-  <meta name="author" content="Sedagbe"/>
-  <meta property="og:title" content="CCNA Lab — Sedagbe"/>
-  <meta property="og:description" content="Documentation réseau personnelle pour la préparation CCNA. Labs Packet Tracer et vidéos pédagogiques."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:image" content="https://via.placeholder.com/1200x630?text=CCNA+Lab"/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23080808'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='%23e63c2f' font-family='monospace'%3ENET%3C/text%3E%3C/svg%3E"/>
-  <title>CCNA Lab — Ressources réseau par Sedagbe</title>
+  <title>CCNA Lab — Sedagbe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -28,7 +21,7 @@
   :root {
     --bg:      #080808; --bg2: #0f0f0f; --bg3: #161616; --bg4: #1e1e1e;
     --border:  rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
-    --white:   #f0f0f0; --muted: #aaa; --muted2: #666;
+    --white:   #f0f0f0; --muted: #888; --muted2: #555;
     --red:     #e63c2f; --red2: #ff6b5b;
     --orange:  #f97316; --orange2: #fb923c;
     --serif:   'Instrument Serif', serif;
@@ -133,25 +126,6 @@
   .s-num small { font-size: 20px; font-family: var(--mono); letter-spacing: 0; }
   .s-lbl { font-family: var(--mono); font-size: 10px; color: var(--muted2); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 5px; }
 
-  /* ── FILTER BAR ── */
-  .filter-bar {
-    display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap;
-    justify-content: center;
-  }
-  .filter-btn {
-    background: var(--bg3); border: 1px solid var(--border);
-    padding: 7px 20px; border-radius: 40px; font-size: 13px; font-weight: 500;
-    color: var(--muted); cursor: pointer; transition: all .25s ease;
-    font-family: var(--sans);
-  }
-  .filter-btn:hover {
-    background: var(--bg4); border-color: var(--border2); color: var(--white);
-    transform: translateY(-1px);
-  }
-  .filter-btn.active {
-    background: var(--white); color: #000; border-color: var(--white);
-  }
-
   /* ── SECTION HEAD ── */
   .sec-head { display: flex; align-items: baseline; justify-content: space-between; padding: 36px 0 22px; }
   .sec-title { font-family: var(--serif); font-size: clamp(20px,2.5vw,26px); font-weight: 400; letter-spacing: -.5px; color: var(--white); }
@@ -177,17 +151,8 @@
   .res-card:nth-child(5) { animation-delay: .83s; }
 
   /* ── THUMBNAIL AREA ── */
-  .ft { position: relative; aspect-ratio: 16/9; overflow: hidden; background: linear-gradient(135deg, #141414, #0a0a0a); }
-  .ft img {
-    width:100%; height:100%; object-fit:cover; transition: transform .6s cubic-bezier(.22,1,.36,1), filter .4s;
-    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-  }
-  .ft img[src=""], .ft img:not([src]) { opacity: 0; }
-  .ft-placeholder {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-size: 48px; background: linear-gradient(135deg, #1a1a1a, #0c0c0c);
-    color: rgba(255,255,255,0.08);
-  }
+  .ft { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #0c0c0c; }
+  .ft img { width:100%; height:100%; object-fit:cover; transition: transform .6s cubic-bezier(.22,1,.36,1), filter .4s; }
   .res-card:hover .ft img { transform: scale(1.05); filter: brightness(.72); }
   .ft-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(8,8,8,.65) 100%); }
   .ft-badge {
@@ -227,7 +192,7 @@
     font-family: var(--sans); font-size: 13px; font-weight: 600;
     border-radius: 8px; border: none; align-self: flex-start;
     transition: background .2s, transform .2s, box-shadow .2s;
-    position: relative; overflow: hidden; cursor: pointer;
+    position: relative; overflow: hidden;
   }
   .btn::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,transparent 40%,rgba(0,0,0,.07)); }
   .btn-white  { background: var(--white); color: #000; }
@@ -300,12 +265,9 @@
     .s-item { border-bottom: 1px solid var(--border); }
     .s-item:nth-child(even) { border-right: none; }
     .coming-grid { grid-template-columns: 1fr; }
-    .nav-right { display: flex; gap: 8px; }
-    .nav-pill { font-size: 10px; }
+    .nav-right { display: none; }
     footer .foot-center { display: none; }
     .prog-section { flex-direction: column; align-items: flex-start; }
-    .filter-bar { gap: 8px; }
-    .filter-btn { padding: 5px 14px; font-size: 12px; }
   }
   @media (max-width:440px) {
     .btn { width:100%; justify-content:center; }
@@ -316,26 +278,26 @@
 <body>
 
 <div class="cursor" id="cursor"></div>
-<canvas id="bg-canvas" role="presentation"></canvas>
+<canvas id="bg-canvas"></canvas>
 
 <!-- ════ HEADER ════ -->
 <header>
   <div class="nav">
-    <a href="#" class="logo" aria-label="CCNA Lab - Accueil">
+    <a href="#" class="logo">
       <div class="logo-sq">NET</div>
       <span class="logo-text">CCNA<em>Lab</em></span>
     </a>
     <div class="nav-center">
       <div class="search-wrap">
-        <input type="text" id="searchInput" placeholder="Rechercher — OSI, DHCP, DNS, routage…" autocomplete="off" aria-label="Rechercher des ressources"/>
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <input type="text" id="searchInput" placeholder="Rechercher — OSI, DHCP, DNS, routage…" autocomplete="off"/>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
       </div>
     </div>
     <div class="nav-right">
       <span class="nav-pill" id="navCount">5 ressources</span>
-      <div class="live-dot" aria-label="En ligne"></div>
+      <div class="live-dot"></div>
     </div>
   </div>
 </header>
@@ -375,13 +337,6 @@
     <div class="s-item"><div class="s-num">42<small>%</small></div><div class="s-lbl">Progression estimée</div></div>
   </div>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar reveal reveal-delay-1">
-    <button class="filter-btn active" data-filter="all" aria-label="Afficher toutes les ressources">Toutes</button>
-    <button class="filter-btn" data-filter="video" aria-label="Afficher uniquement les vidéos">Vidéos</button>
-    <button class="filter-btn" data-filter="lab" aria-label="Afficher uniquement les labs">Labs Packet Tracer</button>
-  </div>
-
   <!-- RESOURCES -->
   <div>
     <div class="sec-head reveal reveal-delay-1">
@@ -395,13 +350,12 @@
       <a class="res-card video-card resource-item" href="https://youtu.be/Va8nsdWfapE" target="_blank" rel="noopener"
          data-kw="osi couche layer application présentation session transport réseau liaison physique encapsulation modèle tcp ip protocole fondamentaux 7 sept couches video vidéo">
         <div class="ft">
-          <img src="" alt="Modèle OSI — Les 7 couches expliquées" onerror="this.style.display='none'; this.parentElement.querySelector('.ft-placeholder').style.display='flex';"/>
-          <div class="ft-placeholder" style="display:none;">🎬</div>
+          <img src="thumb.png" alt="Modèle OSI — Les 7 couches expliquées"/>
           <div class="ft-overlay"></div>
           <span class="ft-badge video">▶ VIDÉO</span>
           <div class="ft-center">
             <div class="ring white">
-              <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="#fff"/></svg>
             </div>
           </div>
         </div>
@@ -419,14 +373,365 @@
           </div>
           <div class="fi-meta">
             <div class="fi-meta-i">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>YouTube
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>YouTube
             </div>
             <div class="fi-meta-i">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Débutant
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Débutant
             </div>
             <div class="fi-meta-i">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
             </div>
           </div>
           <span class="btn btn-white">
-            <
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            Regarder sur YouTube
+          </span>
+        </div>
+      </a>
+
+      <!-- ══ CARD 2 : Lab Routage ══ -->
+      <a class="res-card lab-card resource-item" href="Routage___Confguration_IP.pkt" download
+         data-kw="routage route ip configuration réseau router routeur switch packet tracer lab inter-réseau tinos cyclade adressage gateway passerelle statique">
+        <div class="ft">
+          <img src="thumb-routage.png" alt="Routage & Configuration IP"/>
+          <div class="ft-overlay"></div>
+          <span class="ft-badge lab">⬡ LAB .PKT</span>
+          <div class="ft-center">
+            <div class="ring orange">
+              <svg width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="fi">
+          <div class="fi-kicker">Lab Packet Tracer · Avril 2026</div>
+          <h3 class="fi-title">Routage &<br>Configuration IP</h3>
+          <p class="fi-desc">
+            Deux réseaux distincts reliés par un routeur Cisco 2901 — adressage statique,
+            passerelle par défaut et vérification de la connectivité inter-réseau entre
+            les réseaux <strong style="color:#a78bfa">Auto-école Tinos</strong> et <strong style="color:#fb923c">Cyclade</strong>.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">Routage statique</span><span class="fi-tag">Adressage IP</span>
+            <span class="fi-tag">Inter-réseau</span><span class="fi-tag">Cisco IOS</span><span class="fi-tag">Intermédiaire</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Packet Tracer
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Intermédiaire
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
+            </div>
+          </div>
+          <span class="btn btn-orange">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger le .pkt
+          </span>
+        </div>
+      </a>
+
+      <!-- ══ CARD 3 : Lab DHCP avec routeur ══ -->
+      <a class="res-card lab-card resource-item" href="DHCP_avec_routeur.pkt" download
+         data-kw="dhcp routeur router automatique adresse ip attribution lease bail pool configuration dynamic host protocol réseau switch cisco">
+        <div class="ft">
+          <img src="DHCP_ROUTEUR.png" alt="DHCP avec routeur"/>
+          <div class="ft-overlay"></div>
+          <span class="ft-badge lab">⬡ LAB .PKT</span>
+          <div class="ft-center">
+            <div class="ring orange">
+              <svg width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="fi">
+          <div class="fi-kicker">Lab Packet Tracer · Avril 2026</div>
+          <h3 class="fi-title">DHCP<br>avec Routeur</h3>
+          <p class="fi-desc">
+            Configuration du protocole DHCP directement sur un routeur Cisco 2901.
+            Attribution automatique d'adresses IP à plusieurs hôtes sur deux sous-réseaux,
+            avec pools DHCP, exclusions d'adresses et vérification via <em>ipconfig /all</em>.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">DHCP</span><span class="fi-tag">Routeur Cisco</span>
+            <span class="fi-tag">Attribution auto</span><span class="fi-tag">Sous-réseaux</span><span class="fi-tag">Intermédiaire</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Packet Tracer
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Intermédiaire
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
+            </div>
+          </div>
+          <span class="btn btn-orange">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger le .pkt
+          </span>
+        </div>
+      </a>
+
+      <!-- ══ CARD 4 : Lab DNS ══ -->
+      <a class="res-card lab-card resource-item" href="Configuration_Serveur_DNS.pkt" download
+         data-kw="dns domain name system serveur server résolution nom domaine enregistrement record configuration cisco switch packet tracer">
+        <div class="ft">
+          <img src="Configuration_DNS.png" alt="Configuration Serveur DNS"/>
+          <div class="ft-overlay"></div>
+          <span class="ft-badge lab">⬡ LAB .PKT</span>
+          <div class="ft-center">
+            <div class="ring orange">
+              <svg width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="fi">
+          <div class="fi-kicker">Lab Packet Tracer · Avril 2026</div>
+          <h3 class="fi-title">Configuration<br>Serveur DNS</h3>
+          <p class="fi-desc">
+            Mise en place d'un serveur DNS dans Packet Tracer. Configuration des
+            enregistrements A, vérification de la résolution de noms depuis les postes clients
+            (PC0 et PC1) connectés via un switch 2950-24.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">DNS</span><span class="fi-tag">Résolution de noms</span>
+            <span class="fi-tag">Enregistrement A</span><span class="fi-tag">Serveur</span><span class="fi-tag">Intermédiaire</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Packet Tracer
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Intermédiaire
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
+            </div>
+          </div>
+          <span class="btn btn-orange">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger le .pkt
+          </span>
+        </div>
+      </a>
+
+      <!-- ══ CARD 5 : Lab DHCP + DNS + WEB ══ -->
+      <a class="res-card lab-card resource-item" href="Confguration_DHCP___DNS___WEB.pkt" download
+         data-kw="dhcp dns web serveur http server résolution nom adresse ip automatique routeur router switch cisco packet tracer avancé complet multi-service">
+        <div class="ft">
+          <img src="SERVEUR_WEB.png" alt="Configuration DHCP + DNS + Serveur Web"/>
+          <div class="ft-overlay"></div>
+          <span class="ft-badge lab">⬡ LAB .PKT</span>
+          <div class="ft-center">
+            <div class="ring orange">
+              <svg width="22" height="22" fill="none" stroke="#f97316" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="fi">
+          <div class="fi-kicker">Lab Packet Tracer · Avril 2026</div>
+          <h3 class="fi-title">DHCP + DNS<br>+ Serveur Web</h3>
+          <p class="fi-desc">
+            Lab complet multi-services : attribution automatique d'IP via DHCP,
+            résolution de noms via DNS, et accès à un site web hébergé sur un serveur HTTP.
+            Topologie avancée avec routeur, deux switches et plusieurs hôtes.
+          </p>
+          <div class="fi-tags">
+            <span class="fi-tag">DHCP</span><span class="fi-tag">DNS</span>
+            <span class="fi-tag">HTTP / Web</span><span class="fi-tag">Multi-services</span><span class="fi-tag">Avancé</span>
+          </div>
+          <div class="fi-meta">
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Packet Tracer
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Avancé
+            </div>
+            <div class="fi-meta-i">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Sedagbe
+            </div>
+          </div>
+          <span class="btn btn-orange">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger le .pkt
+          </span>
+        </div>
+      </a>
+
+    </div><!-- /resources -->
+    <div class="no-res" id="noRes"><p>Aucun résultat pour cette recherche.</p></div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div>
+    <div class="sec-head reveal reveal-delay-1">
+      <h2 class="sec-title">Prochainement</h2>
+      <span class="sec-count">En préparation</span>
+    </div>
+    <div class="coming-grid">
+      <div class="ci reveal reveal-delay-1">
+        <div class="ci-n">01</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="ci-title">VLAN & Trunking 802.1Q</div>
+        <div class="ci-desc">VLANs sur switches Cisco, ports trunk/access et routage inter-VLAN.</div>
+        <span class="ci-badge">Packet Tracer</span>
+      </div>
+      <div class="ci reveal reveal-delay-2">
+        <div class="ci-n">02</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="ci-title">OSPF — Routage Dynamique</div>
+        <div class="ci-desc">Protocole OSPF, areas, LSA et convergence sur IOS Cisco.</div>
+        <span class="ci-badge">Vidéo + Lab</span>
+      </div>
+      <div class="ci reveal reveal-delay-3">
+        <div class="ci-n">03</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="ci-title">ACL Standard & Étendue</div>
+        <div class="ci-desc">Filtrage du trafic réseau avec les Access Control Lists.</div>
+        <span class="ci-badge">Packet Tracer</span>
+      </div>
+      <div class="ci reveal reveal-delay-4">
+        <div class="ci-n">04</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="17,1 21,5 17,9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <div class="ci-title">NAT / PAT</div>
+        <div class="ci-desc">Translation d'adresses statique, dynamique et overload.</div>
+        <span class="ci-badge">Packet Tracer</span>
+      </div>
+      <div class="ci reveal reveal-delay-5">
+        <div class="ci-n">05</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+        <div class="ci-title">STP — Spanning Tree</div>
+        <div class="ci-desc">Prévention des boucles, Root Bridge et états des ports STP.</div>
+        <span class="ci-badge">Packet Tracer</span>
+      </div>
+      <div class="ci reveal reveal-delay-6">
+        <div class="ci-n">06</div>
+        <div class="ci-icon"><svg width="17" height="17" fill="none" stroke="#888" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-linecap="round" stroke-width="3"/></svg></div>
+        <div class="ci-title">IPv6 & Adressage</div>
+        <div class="ci-desc">Structure IPv6, SLAAC, NDP et migration depuis IPv4.</div>
+        <span class="ci-badge">Théorie</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="prog-section reveal">
+    <div class="prog-left">
+      <div class="prog-label">Progression CCNA</div>
+      <div class="prog-val">42<small>%</small></div>
+    </div>
+    <div class="prog-right">
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+      <div class="prog-steps">
+        <span class="p-step done">Modèle OSI</span>
+        <span class="p-step done">Routage IP</span>
+        <span class="p-step done">DHCP</span>
+        <span class="p-step done">DNS</span>
+        <span class="p-step done">Serveur Web</span>
+        <span class="p-step">VLAN</span>
+        <span class="p-step">OSPF</span>
+        <span class="p-step">ACL</span>
+        <span class="p-step">NAT</span>
+        <span class="p-step">STP</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo">CCNA<em>Lab</em> — Sedagbe</div>
+    <div class="foot-center">Documentation réseau personnelle · Préparation CCNA</div>
+    <div class="foot-right">GitHub Pages · 2026</div>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => { cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+document.querySelectorAll('a,button,input,.chip,.fi-tag').forEach(el => {
+  el.addEventListener('mouseenter',()=>{ cursor.style.width='28px'; cursor.style.height='28px'; });
+  el.addEventListener('mouseleave',()=>{ cursor.style.width='10px'; cursor.style.height='10px'; });
+});
+
+/* ── CANVAS ── */
+const canvas=document.getElementById('bg-canvas'), ctx=canvas.getContext('2d');
+let W,H;
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize',resize);
+class Line {
+  constructor(){ this.reset(true); }
+  reset(init=false){
+    this.x=Math.random()*W; this.y=init?Math.random()*H:(Math.random()>.5?-20:H+20);
+    this.vy=(Math.random()*.4+.15)*(this.y<0?1:-1); this.vx=(Math.random()-.5)*.15;
+    this.len=Math.random()*80+40; this.a=Math.random()*.18+.04; this.w=Math.random()*.6+.2;
+  }
+  draw(){ ctx.beginPath(); ctx.moveTo(this.x,this.y); ctx.lineTo(this.x+this.vx*this.len/this.vy,this.y+this.len); ctx.strokeStyle=`rgba(255,255,255,${this.a})`; ctx.lineWidth=this.w; ctx.stroke(); }
+  update(){ this.x+=this.vx; this.y+=this.vy; if(this.y>H+30||this.y<-30)this.reset(); }
+}
+const lines=Array.from({length:55},()=>new Line());
+function animate(){ ctx.clearRect(0,0,W,H); lines.forEach(l=>{l.update();l.draw();}); requestAnimationFrame(animate); }
+animate();
+
+/* ── REVEAL ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+
+/* ── PROGRESS ── */
+const progFill=document.getElementById('progFill');
+const progIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){progFill.style.width='42%';progIO.unobserve(e.target);} });
+},{threshold:.3});
+progIO.observe(progFill);
+
+/* ── SEARCH ── */
+const input=document.getElementById('searchInput');
+const noRes=document.getElementById('noRes');
+const navCount=document.getElementById('navCount');
+const secCount=document.getElementById('secCount');
+const items=document.querySelectorAll('.resource-item');
+const TOTAL=items.length;
+
+input.addEventListener('input',()=>{
+  const q=input.value.trim().toLowerCase();
+  if(!q){
+    items.forEach(i=>i.style.display='');
+    noRes.classList.remove('show');
+    navCount.textContent=TOTAL+' ressources';
+    secCount.textContent=TOTAL+' résultats';
+    return;
+  }
+  let count=0;
+  items.forEach(item=>{
+    const kw=item.dataset.kw||'';
+    const match=kw.split(' ').some(k=>k.includes(q)||q.split(/\s+/).some(w=>w.length>1&&k.includes(w)));
+    item.style.display=match?'':'none';
+    if(match)count++;
+  });
+  noRes.classList.toggle('show',count===0);
+  navCount.textContent=count+(count<=1?' résultat':' résultats');
+  secCount.textContent=count+(count<=1?' résultat':' résultats');
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement!==input){e.preventDefault();input.focus();}
+});
+</script>
+</body>
+</html>
